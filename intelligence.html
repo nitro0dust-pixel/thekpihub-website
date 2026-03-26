@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="The KPI Hub Intelligence Feed — AI-synthesized SaaS insights, benchmark updates, and decision-grade research.">
+    <title>Intelligence Feed — The KPI Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Syne:wght@400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+    <style>
+        :root{--bg:#06071A;--bg2:#0C0E28;--card:rgba(255,255,255,0.04);--gold:#E9A123;--gold-glow:rgba(233,161,35,0.18);--gold-rim:rgba(233,161,35,0.28);--teal:#00C9A7;--teal-glow:rgba(0,201,167,0.12);--text:#EAEDF5;--text2:rgba(234,237,245,0.62);--text3:rgba(234,237,245,0.32);--border:rgba(255,255,255,0.08);--r:12px;--max:1160px;}
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+        html{scroll-behavior:smooth;}
+        body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;line-height:1.65;overflow-x:hidden;}
+        a{color:inherit;text-decoration:none;}
+        ::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px;}
+
+        nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:18px 48px;display:flex;align-items:center;justify-content:space-between;background:rgba(6,7,26,0.92);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);}
+        .logo{font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;letter-spacing:-0.02em;display:flex;align-items:center;gap:9px;}
+        .logo-accent{color:var(--gold);}
+        .logo-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);animation:blink 2s ease infinite;}
+        .nav-links{display:flex;gap:36px;list-style:none;}
+        .nav-links a{font-family:'Syne',sans-serif;font-size:0.78rem;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:var(--text2);transition:color 0.2s;}
+        .nav-links a:hover,.nav-links a.active{color:var(--gold);}
+        .nav-btn{font-family:'Syne',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:10px 26px;background:var(--gold);color:var(--bg);border-radius:6px;border:none;transition:transform 0.2s,box-shadow 0.2s;cursor:pointer;}
+        .nav-btn:hover{transform:translateY(-1px);box-shadow:0 8px 30px rgba(233,161,35,0.4);}
+
+        /* HERO */
+        .feed-hero{padding:140px 48px 56px;background:var(--bg2);border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
+        .feed-hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(233,161,35,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(233,161,35,0.04) 1px,transparent 1px);background-size:48px 48px;}
+        .feed-hero-glow{position:absolute;top:-80px;right:-100px;width:600px;height:500px;background:radial-gradient(ellipse,rgba(0,201,167,0.08) 0%,transparent 70%);pointer-events:none;}
+        .feed-hero-content{position:relative;z-index:2;max-width:var(--max);margin:0 auto;display:flex;align-items:flex-end;justify-content:space-between;gap:40px;flex-wrap:wrap;}
+        .s-label{display:inline-flex;align-items:center;gap:12px;font-family:'Syne',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:18px;}
+        .s-label::before{content:'';width:28px;height:2px;background:var(--gold);}
+        .feed-hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.6rem,5vw,4.2rem);font-weight:700;line-height:1.08;letter-spacing:-0.025em;margin-bottom:14px;}
+        .feed-hero h1 em{font-style:italic;color:var(--gold);}
+        .feed-hero p{font-size:1rem;color:var(--text2);max-width:480px;line-height:1.72;}
+        .hero-right{flex-shrink:0;}
+        .live-pill{display:flex;align-items:center;gap:10px;padding:12px 22px;background:var(--card);border:1px solid var(--border);border-radius:100px;font-family:'Syne',sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--text2);}
+        .live-dot{width:8px;height:8px;border-radius:50%;background:var(--teal);animation:blink 1.5s ease infinite;}
+
+        /* FILTER TABS */
+        .filter-tabs{border-bottom:1px solid var(--border);background:var(--bg2);}
+        .tabs-wrap{max-width:var(--max);margin:0 auto;padding:0 48px;display:flex;gap:0;overflow-x:auto;scrollbar-width:none;}
+        .tabs-wrap::-webkit-scrollbar{display:none;}
+        .tab{padding:18px 24px;font-family:'Syne',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:color 0.2s,border-color 0.2s;}
+        .tab:hover{color:var(--text2);}
+        .tab.active{color:var(--gold);border-bottom-color:var(--gold);}
+
+        /* BODY */
+        .feed-body{max-width:var(--max);margin:0 auto;padding:48px;display:grid;grid-template-columns:1fr 320px;gap:48px;}
+
+        /* FEATURED */
+        .featured-card{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center;padding:40px;background:var(--bg2);border:1px solid var(--border);border-radius:16px;margin-bottom:32px;transition:border-color 0.2s,transform 0.2s;cursor:pointer;}
+        .featured-card:hover{border-color:var(--gold-rim);transform:translateY(-4px);}
+        .feat-thumb{height:220px;background:linear-gradient(135deg,rgba(233,161,35,0.15),rgba(0,201,167,0.1));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:4rem;border:1px solid var(--border);}
+        .feat-label{display:inline-flex;align-items:center;gap:8px;padding:5px 14px;background:var(--gold-glow);border:1px solid var(--gold-rim);border-radius:100px;font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;}
+        .feat-title{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:700;line-height:1.18;letter-spacing:-0.02em;margin-bottom:14px;}
+        .feat-title em{font-style:italic;color:var(--gold);}
+        .feat-excerpt{font-size:0.9rem;color:var(--text2);line-height:1.7;margin-bottom:22px;}
+        .feat-meta{display:flex;align-items:center;gap:18px;font-family:'Syne',sans-serif;font-size:0.72rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--text3);}
+        .feat-tag{padding:4px 12px;background:var(--card);border:1px solid var(--border);border-radius:100px;font-size:0.65rem;}
+
+        /* ARTICLE GRID */
+        .articles-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:32px;}
+        .article-card{padding:28px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);cursor:pointer;transition:border-color 0.2s,transform 0.2s;}
+        .article-card:hover{border-color:var(--gold-rim);transform:translateY(-4px);}
+        .art-label{display:inline-flex;align-items:center;gap:6px;margin-bottom:12px;}
+        .art-cat{padding:4px 12px;background:var(--card);border:1px solid var(--border);border-radius:100px;font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);}
+        .art-new{padding:4px 12px;background:var(--teal-glow);border:1px solid rgba(0,201,167,0.25);border-radius:100px;font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--teal);}
+        .art-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;line-height:1.25;letter-spacing:-0.01em;margin-bottom:10px;}
+        .art-excerpt{font-size:0.85rem;color:var(--text2);line-height:1.65;margin-bottom:16px;}
+        .art-meta{display:flex;align-items:center;gap:14px;font-family:'Syne',sans-serif;font-size:0.68rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--text3);}
+
+        /* LIST ARTICLES */
+        .article-list{display:flex;flex-direction:column;gap:16px;}
+        .list-card{display:grid;grid-template-columns:80px 1fr;gap:18px;align-items:center;padding:20px 24px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);cursor:pointer;transition:border-color 0.2s,transform 0.2s;}
+        .list-card:hover{border-color:var(--gold-rim);transform:translateX(4px);}
+        .list-thumb{width:80px;height:80px;border-radius:8px;background:linear-gradient(135deg,rgba(233,161,35,0.12),rgba(0,201,167,0.08));display:flex;align-items:center;justify-content:center;font-size:1.8rem;border:1px solid var(--border);}
+        .list-cat{font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+        .list-title{font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:700;margin-bottom:6px;line-height:1.3;}
+        .list-meta{font-family:'Syne',sans-serif;font-size:0.68rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--text3);}
+
+        /* LOAD MORE */
+        .load-more{display:flex;justify-content:center;padding:32px 0;}
+        .load-btn{padding:14px 40px;background:transparent;border:1px solid var(--border);border-radius:8px;font-family:'Syne',sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--text2);cursor:pointer;transition:border-color 0.2s,color 0.2s;}
+        .load-btn:hover{border-color:var(--gold-rim);color:var(--gold);}
+
+        /* SIDEBAR */
+        .feed-sidebar{display:flex;flex-direction:column;gap:24px;position:sticky;top:90px;height:fit-content;}
+        .side-box{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:24px;}
+        .side-title{font-family:'Syne',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);margin-bottom:20px;display:flex;align-items:center;gap:8px;}
+        .trend-item{display:flex;align-items:flex-start;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:color 0.2s;}
+        .trend-item:last-child{border-bottom:none;padding-bottom:0;}
+        .trend-item:hover .trend-title{color:var(--gold);}
+        .trend-num{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--gold);opacity:0.5;line-height:1;flex-shrink:0;width:24px;}
+        .trend-title{font-family:'Syne',sans-serif;font-size:0.82rem;font-weight:700;line-height:1.35;margin-bottom:4px;transition:color 0.2s;}
+        .trend-cat{font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--text3);}
+        .kpi-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);}
+        .kpi-row:last-child{border-bottom:none;}
+        .kpi-name{font-size:0.85rem;color:var(--text2);}
+        .kpi-val{font-family:'Syne',sans-serif;font-size:0.85rem;font-weight:700;}
+        .kpi-val.up{color:var(--teal);}
+        .kpi-val.down{color:#FF6B6B;}
+        .newsletter-box{background:linear-gradient(135deg,var(--gold-glow),var(--teal-glow));border:1px solid var(--gold-rim);border-radius:var(--r);padding:28px;}
+        .nl-title{font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:800;margin-bottom:8px;}
+        .nl-sub{font-size:0.82rem;color:var(--text2);margin-bottom:18px;line-height:1.6;}
+        .nl-in{width:100%;padding:12px 16px;background:rgba(255,255,255,0.08);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.88rem;outline:none;margin-bottom:10px;}
+        .nl-in::placeholder{color:var(--text3);}
+        .nl-btn{width:100%;padding:12px;background:var(--gold);color:var(--bg);font-family:'Syne',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;border:none;border-radius:8px;cursor:pointer;transition:opacity 0.2s;}
+        .nl-btn:hover{opacity:0.9;}
+
+        footer{padding:60px 48px 40px;border-top:1px solid var(--border);}
+        .foot-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:40px;margin-bottom:52px;}
+        .foot-tag{font-size:0.88rem;color:var(--text3);max-width:210px;line-height:1.65;margin-top:12px;}
+        .foot-group h4{font-family:'Syne',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);margin-bottom:18px;}
+        .foot-group ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
+        .foot-group a{font-size:0.9rem;color:var(--text2);transition:color 0.2s;}
+        .foot-group a:hover{color:var(--text);}
+        .foot-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;padding-top:32px;border-top:1px solid var(--border);}
+        .foot-copy{font-size:0.82rem;color:var(--text3);}
+        .foot-copy a{color:var(--gold);}
+        .foot-made{font-family:'Syne',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);}
+
+        @keyframes blink{0%,100%{opacity:1}50%{opacity:0.4}}
+        .reveal{opacity:0;transform:translateY(28px);transition:opacity 0.7s ease,transform 0.7s ease;}
+        .reveal.visible{opacity:1;transform:translateY(0);}
+
+        @media(max-width:1080px){.feed-body{grid-template-columns:1fr;}.feed-sidebar{position:static;}.articles-grid{grid-template-columns:1fr;}}
+        @media(max-width:768px){nav{padding:16px 24px;}.nav-links{display:none;}.feed-hero{padding:110px 24px 48px;}.feed-body{padding:24px;}.tabs-wrap{padding:0 24px;}.featured-card{grid-template-columns:1fr;}}
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html"><div class="logo"><div class="logo-dot"></div>The <span class="logo-accent">KPI</span> Hub</div></a>
+    <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="directory.html">Directory</a></li>
+        <li><a href="intelligence.html" class="active">Intelligence</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+    </ul>
+    <a href="index.html#waitlist"><button class="nav-btn">Get Early Access</button></a>
+</nav>
+
+<!-- HERO -->
+<div class="feed-hero">
+    <div class="feed-hero-grid"></div>
+    <div class="feed-hero-glow"></div>
+    <div class="feed-hero-content">
+        <div>
+            <div class="s-label">Intelligence Feed</div>
+            <h1>The <em>signal</em> behind<br>SaaS decisions</h1>
+            <p>AI-synthesized SaaS intelligence, benchmark updates, and decision-grade research — published daily, zero fluff.</p>
+        </div>
+        <div class="hero-right">
+            <div class="live-pill"><div class="live-dot"></div> Updated 14 mins ago</div>
+        </div>
+    </div>
+</div>
+
+<!-- FILTER TABS -->
+<div class="filter-tabs">
+    <div class="tabs-wrap">
+        <div class="tab active">All Intelligence</div>
+        <div class="tab">Benchmark Reports</div>
+        <div class="tab">Tool Deep-Dives</div>
+        <div class="tab">Market Signals</div>
+        <div class="tab">KPI Breakdowns</div>
+        <div class="tab">Comparisons</div>
+        <div class="tab">Buyer Guides</div>
+    </div>
+</div>
+
+<!-- BODY -->
+<div class="feed-body">
+    <main>
+
+        <!-- FEATURED -->
+        <div class="featured-card reveal">
+            <div class="feat-thumb">🧠</div>
+            <div>
+                <div class="feat-label">🔥 Featured Report</div>
+                <h2 class="feat-title">The <em>2025 SaaS KPI</em> Benchmark Report: What Top Quartile Looks Like Now</h2>
+                <p class="feat-excerpt">We analyzed 2,400+ SaaS companies to define what best-in-class looks like across CAC, LTV, churn, NPS, and 12 other core KPIs. The numbers will surprise you.</p>
+                <div class="feat-meta">
+                    <span>📅 March 24, 2025</span>
+                    <span>⏱ 12 min read</span>
+                    <span class="feat-tag">Benchmarks</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ARTICLE GRID -->
+        <div class="articles-grid">
+            <div class="article-card reveal">
+                <div class="art-label"><span class="art-cat">Analytics</span><span class="art-new">New</span></div>
+                <h3 class="art-title">Why Your CAC Payback Period Is The Most Misunderstood SaaS Metric</h3>
+                <p class="art-excerpt">Most teams calculate CAC payback wrong. Here's the precise formula top SaaS CFOs actually use — and the benchmarks that matter.</p>
+                <div class="art-meta"><span>Mar 23</span><span>·</span><span>8 min read</span></div>
+            </div>
+            <div class="article-card reveal" style="transition-delay:0.1s">
+                <div class="art-label"><span class="art-cat">Market Signal</span></div>
+                <h3 class="art-title">Salesforce vs HubSpot 2025: The Battle for Mid-Market CRM Dominance</h3>
+                <p class="art-excerpt">We ran both through 200+ evaluation criteria so you don't have to. The verdict on pricing, UX, integrations, and long-term TCO.</p>
+                <div class="art-meta"><span>Mar 22</span><span>·</span><span>11 min read</span></div>
+            </div>
+            <div class="article-card reveal" style="transition-delay:0.15s">
+                <div class="art-label"><span class="art-cat">KPI Breakdown</span><span class="art-new">Trending</span></div>
+                <h3 class="art-title">NRR Above 120%: The 7 Habits of Elite SaaS Expansion Revenue Teams</h3>
+                <p class="art-excerpt">Net Revenue Retention above 120% isn't luck. We studied 38 companies doing it consistently and found the exact playbook.</p>
+                <div class="art-meta"><span>Mar 21</span><span>·</span><span>9 min read</span></div>
+            </div>
+            <div class="article-card reveal" style="transition-delay:0.2s">
+                <div class="art-label"><span class="art-cat">Tool Deep-Dive</span></div>
+                <h3 class="art-title">Amplitude vs Mixpanel in 2025: Which Product Analytics Platform Actually Wins?</h3>
+                <p class="art-excerpt">After 6 months of parallel testing, 14 use cases, and 3 pricing tiers — here's the unfiltered comparison with a clear recommendation.</p>
+                <div class="art-meta"><span>Mar 20</span><span>·</span><span>14 min read</span></div>
+            </div>
+        </div>
+
+        <!-- LIST ARTICLES -->
+        <div class="article-list">
+            <div class="list-card reveal">
+                <div class="list-thumb">💰</div>
+                <div>
+                    <div class="list-cat">Finance & RevOps</div>
+                    <div class="list-title">The Definitive Guide to SaaS Pricing Models in 2025: Per-Seat is Dead, Long Live Usage-Based</div>
+                    <div class="list-meta"><span>Mar 19</span><span>·</span><span>10 min</span><span>·</span><span>4.2K reads</span></div>
+                </div>
+            </div>
+            <div class="list-card reveal" style="transition-delay:0.05s">
+                <div class="list-thumb">📊</div>
+                <div>
+                    <div class="list-cat">Benchmark Report</div>
+                    <div class="list-title">2025 SaaS Churn Benchmarks: B2B vs B2C, SMB vs Enterprise — The Complete Data</div>
+                    <div class="list-meta"><span>Mar 18</span><span>·</span><span>7 min</span><span>·</span><span>6.8K reads</span></div>
+                </div>
+            </div>
+            <div class="list-card reveal" style="transition-delay:0.1s">
+                <div class="list-thumb">🤖</div>
+                <div>
+                    <div class="list-cat">AI in SaaS</div>
+                    <div class="list-title">How AI Copilots Are Changing The SaaS Buying Decision: A Buyer's Intelligence Report</div>
+                    <div class="list-meta"><span>Mar 17</span><span>·</span><span>9 min</span><span>·</span><span>5.1K reads</span></div>
+                </div>
+            </div>
+            <div class="list-card reveal" style="transition-delay:0.15s">
+                <div class="list-thumb">🔐</div>
+                <div>
+                    <div class="list-cat">Security & Compliance</div>
+                    <div class="list-title">SOC 2 vs ISO 27001 in 2025: Which Certification Actually Closes Enterprise Deals Faster?</div>
+                    <div class="list-meta"><span>Mar 16</span><span>·</span><span>8 min</span><span>·</span><span>3.4K reads</span></div>
+                </div>
+            </div>
+            <div class="list-card reveal" style="transition-delay:0.2s">
+                <div class="list-thumb">📈</div>
+                <div>
+                    <div class="list-cat">Growth Intelligence</div>
+                    <div class="list-title">PLG vs SLG in 2025: The Data on Which Go-To-Market Motion Scales Faster at Every Stage</div>
+                    <div class="list-meta"><span>Mar 15</span><span>·</span><span>11 min</span><span>·</span><span>7.2K reads</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="load-more">
+            <button class="load-btn">Load More Intelligence →</button>
+        </div>
+    </main>
+
+    <!-- SIDEBAR -->
+    <aside class="feed-sidebar">
+
+        <div class="newsletter-box reveal">
+            <div class="nl-title">📬 Daily Intelligence Brief</div>
+            <p class="nl-sub">AI-curated SaaS insights in your inbox every morning. Zero fluff, maximum signal.</p>
+            <input type="email" class="nl-in" placeholder="your@email.com">
+            <button class="nl-btn">Subscribe Free</button>
+        </div>
+
+        <div class="side-box reveal">
+            <div class="side-title">🔥 Trending This Week</div>
+            <div class="trend-item">
+                <div class="trend-num">1</div>
+                <div><div class="trend-title">2025 SaaS KPI Benchmark Report</div><div class="trend-cat">Benchmarks</div></div>
+            </div>
+            <div class="trend-item">
+                <div class="trend-num">2</div>
+                <div><div class="trend-title">CAC Payback Period: The Real Formula</div><div class="trend-cat">KPI Breakdown</div></div>
+            </div>
+            <div class="trend-item">
+                <div class="trend-num">3</div>
+                <div><div class="trend-title">Salesforce vs HubSpot 2025</div><div class="trend-cat">Comparison</div></div>
+            </div>
+            <div class="trend-item">
+                <div class="trend-num">4</div>
+                <div><div class="trend-title">PLG vs SLG: The Data</div><div class="trend-cat">Growth Intelligence</div></div>
+            </div>
+            <div class="trend-item">
+                <div class="trend-num">5</div>
+                <div><div class="trend-title">Usage-Based Pricing: 2025 Guide</div><div class="trend-cat">Finance & RevOps</div></div>
+            </div>
+        </div>
+
+        <div class="side-box reveal">
+            <div class="side-title">📡 Live KPI Signals</div>
+            <div class="kpi-row"><span class="kpi-name">Avg SaaS MRR Growth</span><span class="kpi-val up">+3.2%</span></div>
+            <div class="kpi-row"><span class="kpi-name">Median Churn Rate</span><span class="kpi-val down">5.1%</span></div>
+            <div class="kpi-row"><span class="kpi-name">Avg CAC Payback</span><span class="kpi-val">11.4mo</span></div>
+            <div class="kpi-row"><span class="kpi-name">Median NPS (SaaS)</span><span class="kpi-val up">38</span></div>
+            <div class="kpi-row"><span class="kpi-name">Top NRR (Q1 2025)</span><span class="kpi-val up">134%</span></div>
+        </div>
+
+        <div class="side-box reveal">
+            <div class="side-title">🏷️ Popular Topics</div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                <span style="padding:6px 14px;background:var(--card);border:1px solid var(--border);border-radius:100px;font-family:'Syne',sans-serif;font-size:0.7rem;font-weight:600;color:var(--text3);cursor:pointer;">Churn</span>
+                <span style="padding:6px 14px;background:var(--card);border:1px solid var(--border);border-radius:100px;font-family:'Syne',sans-serif;font-size:0.7rem;font-weight:600;color:var(--text3);cursor:pointer;">CAC & LTV</span>
+                <span style="padding:6px 14px;background:var(--card);border:1px solid var(--border);border-radius:100px;font-family:'Syne',sans-serif;font-size:0.7rem;font-weight:600;color:var(--text3);cursor:pointer;">ARR Growth</span>
+                <span style="padding:6px 14px;background:var(--card);border:1px solid var(--border);border-radius:100px;font-family:'Syne',sans-serif;font-size:0.7rem;font-weight:600;color:var(--text3);cursor:pointer;">NRR</span>
+                <span style="padding:6px 14px;background:var(--card);border:1px solid var(--border);border-radius:100px;font-family:'Syne',sans-serif;font-size:0.7rem;font-weight:600;color:var(--text3);cursor:pointer;">PLG</span>
+                <span style="padding:6px 14px;background:var(--card);border:1px solid var(--border);border-radius:100px;font-family:'Syne',sans-serif;font-size:0.7rem;font-weight:600;color:var(--text3);cursor:pointer;">Pricing Models</span>
+                <span style="padding:6px 14px;background:var(--card);border:1px solid var(--border);border-radius:100px;font-family:'Syne',sans-serif;font-size:0.7rem;font-weight:600;color:var(--text3);cursor:pointer;">AI Tools</span>
+                <span style="padding:6px 14px;background:var(--card);border:1px solid var(--border);border-radius:100px;font-family:'Syne',sans-serif;font-size:0.7rem;font-weight:600;color:var(--text3);cursor:pointer;">RevOps</span>
+            </div>
+        </div>
+    </aside>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div style="max-width:var(--max);margin:0 auto;">
+        <div class="foot-top">
+            <div>
+                <a href="index.html"><div class="logo"><div class="logo-dot"></div>The <span class="logo-accent">KPI</span> Hub</div></a>
+                <p class="foot-tag">Decision-Grade Intelligence for the modern SaaS professional.</p>
+            </div>
+            <div class="foot-group">
+                <h4>Platform</h4>
+                <ul>
+                    <li><a href="intelligence.html">Intelligence Feed</a></li>
+                    <li><a href="directory.html">SaaS Discovery</a></li>
+                    <li><a href="benchmarks.html">Benchmarks</a></li>
+                    <li><a href="pricing.html">Pricing</a></li>
+                </ul>
+            </div>
+            <div class="foot-group">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="intelligence.html">Blog</a></li>
+                    <li><a href="index.html#waitlist">Early Access</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="foot-bottom">
+            <p class="foot-copy">© 2025 <a href="index.html">The KPI Hub</a>. All rights reserved.</p>
+            <p class="foot-made">Made with ☕ in Delhi, India</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', function(){
+            document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target);}});
+    },{threshold:0.05});
+    document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+    window.addEventListener('scroll',()=>{
+        const nav=document.querySelector('nav');
+        nav.style.boxShadow=window.scrollY>60?'0 8px 40px rgba(0,0,0,0.4)':'none';
+    });
+</script>
+</body>
+</html>
