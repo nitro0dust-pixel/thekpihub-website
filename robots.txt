@@ -1,0 +1,12 @@
+# robots.txt — thekpihub.com
+# Updated: 2026-04-03
+
+User-agent: *
+Allow: /
+
+Disallow: /admin/
+Disallow: /api/
+Disallow: /cgi-bin/
+Disallow: /.git/
+
+Sitemap: https://thekpihub.com/sitemap.xml
