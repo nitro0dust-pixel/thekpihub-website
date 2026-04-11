@@ -16,6 +16,22 @@
     <meta name="robots" content="index, follow">
     <title>The KPI Hub — Decision-Grade Intelligence. Zero Fluff.</title>
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2306071A'/><text x='16' y='22' font-family='sans-serif' font-weight='800' font-size='18' fill='%23E9A123' text-anchor='middle'>K</text></svg>">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://thekpihub.com/">
+    <meta property="og:title" content="The KPI Hub — Decision-Grade Intelligence. Zero Fluff.">
+    <meta property="og:description" content="AI-synthesized SaaS insights for professionals who act on data, not noise.">
+    <meta property="og:image" content="https://thekpihub.com/og-image.png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="The KPI Hub — Decision-Grade Intelligence. Zero Fluff.">
+    <meta name="twitter:description" content="AI-synthesized SaaS insights for professionals who act on data, not noise.">
+    <meta name="twitter:image" content="https://thekpihub.com/og-image.png">
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -97,19 +113,26 @@
            NAV
         ============================================= */
         nav {
-            position: fixed; top:0; left:0; right:0; z-index:100;
+            position: fixed; top:0; left:0; right:0; z-index:200;
             padding: 18px 48px;
             display: flex; align-items:center; justify-content:space-between;
             background: rgba(6,7,26,0.88);
             backdrop-filter: blur(24px);
             border-bottom: 1px solid var(--border);
             animation: fadeDown 0.8s ease both;
+            transition: background 0.4s ease, border-color 0.4s ease, backdrop-filter 0.4s ease;
+        }
+        nav.overlay-open {
+            background: transparent;
+            border-bottom-color: transparent;
+            backdrop-filter: none;
         }
         .logo {
             font-family: var(--head);
             font-size: 1.25rem; font-weight:800;
             letter-spacing:-0.02em;
             display:flex; align-items:center; gap:9px;
+            position: relative; z-index: 210;
         }
         .logo-accent { color:var(--gold); }
         .logo-dot {
@@ -117,26 +140,117 @@
             background:var(--gold);
             animation: blink 2s ease infinite;
         }
-        .nav-links {
-            display:flex; gap:36px; list-style:none;
+        .nav-right {
+            display: flex; align-items: center; gap: 20px;
+            position: relative; z-index: 210;
         }
-        .nav-links a {
-            font-family:var(--head); font-size:0.78rem; font-weight:600;
-            letter-spacing:0.07em; text-transform:uppercase;
-            color:var(--text2); transition:color 0.2s;
-        }
-        .nav-links a:hover { color:var(--text); }
         .nav-btn {
             font-family:var(--head); font-size:0.78rem; font-weight:700;
             letter-spacing:0.06em; text-transform:uppercase;
             padding:10px 26px; background:var(--gold); color:var(--bg);
-            border-radius:6px; border:none;
-            transition: transform 0.2s, box-shadow 0.2s;
+            border-radius:6px; border:none; cursor:pointer;
+            transition: transform 0.2s, box-shadow 0.2s, opacity 0.3s;
         }
         .nav-btn:hover {
             transform:translateY(-1px);
             box-shadow: 0 8px 30px rgba(233,161,35,0.4);
         }
+        nav.overlay-open .nav-btn { opacity:0; pointer-events:none; }
+
+        /* === HAMBURGER BUTTON === */
+        .hamburger {
+            display: flex; flex-direction: column; justify-content: center;
+            gap: 5px; width: 40px; height: 40px;
+            background: none; border: none; cursor: none;
+            padding: 6px; border-radius: 4px;
+        }
+        .hamburger span {
+            display: block; height: 1.5px; background: var(--text);
+            transition: transform 0.45s cubic-bezier(0.77,0,0.175,1),
+                        opacity 0.3s ease, width 0.3s ease;
+            transform-origin: center;
+        }
+        .hamburger span:nth-child(1) { width: 100%; }
+        .hamburger span:nth-child(2) { width: 68%; }
+        .hamburger span:nth-child(3) { width: 100%; }
+        .hamburger.open span:nth-child(1) { width:100%; transform: translateY(6.5px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; width: 0; }
+        .hamburger.open span:nth-child(3) { width:100%; transform: translateY(-6.5px) rotate(-45deg); }
+
+        /* === FULL-SCREEN OVERLAY MENU === */
+        .nav-overlay {
+            position: fixed; inset: 0; z-index: 150;
+            background: var(--bg);
+            clip-path: inset(0 0 100% 0);
+            transition: clip-path 0.75s cubic-bezier(0.77,0,0.175,1);
+            pointer-events: none;
+            overflow-y: auto;
+        }
+        .nav-overlay.open {
+            clip-path: inset(0 0 0% 0);
+            pointer-events: all;
+        }
+        .overlay-inner {
+            min-height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; padding: 100px 80px 140px;
+        }
+        .overlay-item {
+            overflow: hidden;
+            border-bottom: 1px solid var(--border);
+        }
+        .overlay-item:first-child { border-top: 1px solid var(--border); }
+        .overlay-item-inner {
+            display: flex; align-items: baseline; gap: 20px;
+            padding: 14px 0;
+            transform: translateY(110%);
+            transition: transform 0.7s cubic-bezier(0.77,0,0.175,1);
+        }
+        .nav-overlay.open .overlay-item:nth-child(1) .overlay-item-inner { transform:translateY(0); transition-delay:0.06s; }
+        .nav-overlay.open .overlay-item:nth-child(2) .overlay-item-inner { transform:translateY(0); transition-delay:0.13s; }
+        .nav-overlay.open .overlay-item:nth-child(3) .overlay-item-inner { transform:translateY(0); transition-delay:0.20s; }
+        .nav-overlay.open .overlay-item:nth-child(4) .overlay-item-inner { transform:translateY(0); transition-delay:0.27s; }
+        .nav-overlay.open .overlay-item:nth-child(5) .overlay-item-inner { transform:translateY(0); transition-delay:0.34s; }
+        .nav-overlay.open .overlay-item:nth-child(6) .overlay-item-inner { transform:translateY(0); transition-delay:0.41s; }
+        .overlay-num {
+            font-family: var(--head); font-size: 0.68rem; font-weight: 700;
+            letter-spacing: 0.14em; color: var(--gold);
+            min-width: 30px; padding-bottom: 2px;
+        }
+        .overlay-link {
+            font-family: var(--display);
+            font-size: clamp(2.2rem, 4.5vw, 4.5rem);
+            font-weight: 700; line-height: 1; letter-spacing: -0.025em;
+            color: var(--text);
+            transition: color 0.3s ease, letter-spacing 0.35s ease;
+        }
+        .overlay-link:hover { color: var(--gold); letter-spacing: 0.01em; }
+        .overlay-badge {
+            font-family: var(--head); font-size: 0.62rem; font-weight: 700;
+            letter-spacing: 0.1em; text-transform: uppercase;
+            padding: 4px 12px; border-radius: 100px;
+            margin-left: auto; align-self: center;
+        }
+        .overlay-badge.staff  { background:var(--gold-glow); border:1px solid var(--gold-rim); color:var(--gold); }
+        .overlay-badge.member { background:var(--teal-glow); border:1px solid rgba(0,201,167,0.28); color:var(--teal); }
+        .overlay-meta {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 20px 80px;
+            border-top: 1px solid var(--border);
+            background: var(--bg);
+            opacity: 0; transform: translateY(8px);
+            transition: opacity 0.5s 0.5s ease, transform 0.5s 0.5s ease;
+            pointer-events: none;
+        }
+        .nav-overlay.open .overlay-meta { opacity:1; transform:translateY(0); pointer-events:all; }
+        .overlay-meta-copy { font-family:var(--head); font-size:0.72rem; color:var(--text3); letter-spacing:0.04em; }
+        .overlay-meta-links { display:flex; gap:24px; list-style:none; }
+        .overlay-meta-links a {
+            font-family:var(--head); font-size:0.72rem; font-weight:600;
+            letter-spacing:0.08em; text-transform:uppercase;
+            color:var(--text2); transition:color 0.2s;
+        }
+        .overlay-meta-links a:hover { color:var(--gold); }
 
         /* =============================================
            HERO
@@ -598,7 +712,8 @@
         ============================================= */
         @media(max-width:980px){
             nav { padding:16px 24px; }
-            .nav-links { display:none; }
+            .overlay-inner { padding: 100px 32px 140px; }
+            .overlay-meta { padding: 20px 32px; }
             section { padding:80px 24px; }
             .hero { padding:110px 24px 70px; }
             .v-grid { grid-template-columns:1fr; }
@@ -738,11 +853,62 @@
         <li><a href="#intelligence">Intelligence</a></li>
         <li><a href="#how-it-works">How It Works</a></li>
         <li><a href="#features">Features</a></li>
-        <li><a href="pricing.html">Pricing</a></li>
         <li><a href="#waitlist">Early Access</a></li>
     </ul>
     <a href="#waitlist"><button class="nav-btn">Get Early Access</button></a>
 </nav>
+
+<!-- Full-Screen Overlay Navigation (Kuemmerlein-inspired) -->
+<div class="nav-overlay" id="navOverlay" role="dialog" aria-label="Navigation menu" aria-hidden="true">
+    <div class="overlay-inner">
+        <div class="overlay-item">
+            <div class="overlay-item-inner">
+                <span class="overlay-num">01</span>
+                <a href="index.html" class="overlay-link">Home</a>
+            </div>
+        </div>
+        <div class="overlay-item">
+            <div class="overlay-item-inner">
+                <span class="overlay-num">02</span>
+                <a href="about.html" class="overlay-link">About</a>
+            </div>
+        </div>
+        <div class="overlay-item">
+            <div class="overlay-item-inner">
+                <span class="overlay-num">03</span>
+                <a href="directory.html" class="overlay-link">Directory</a>
+            </div>
+        </div>
+        <div class="overlay-item">
+            <div class="overlay-item-inner">
+                <span class="overlay-num">04</span>
+                <a href="intelligence.html" class="overlay-link">Intelligence</a>
+            </div>
+        </div>
+        <div class="overlay-item">
+            <div class="overlay-item-inner">
+                <span class="overlay-num">05</span>
+                <a href="admin-login.html" class="overlay-link">Admin Portal</a>
+                <span class="overlay-badge staff">Staff</span>
+            </div>
+        </div>
+        <div class="overlay-item">
+            <div class="overlay-item-inner">
+                <span class="overlay-num">06</span>
+                <a href="login.html" class="overlay-link">Member Login</a>
+                <span class="overlay-badge member">Customer</span>
+            </div>
+        </div>
+    </div>
+    <div class="overlay-meta">
+        <span class="overlay-meta-copy">© 2025 The KPI Hub &middot; Decision-Grade Intelligence</span>
+        <ul class="overlay-meta-links">
+            <li><a href="index.html#waitlist">Early Access</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="login.html">Login</a></li>
+        </ul>
+    </div>
+</div>
 
 <!-- ======================== HERO ======================== -->
 <section class="hero" id="home">
@@ -1166,746 +1332,6 @@
             ? '0 8px 40px rgba(0,0,0,0.4)'
             : 'none';
     });
-
-    /* --- Social Login --- */
-    // Google/Microsoft/Yahoo → id_token flow (OIDC, JWT decoded client-side, no deprecated implicit token)
-    // Discord → access_token implicit flow (still supported, fetches /users/@me)
-    // GitHub  → authorization code flow (redirects to auth; prompts email entry on return — needs backend for full exchange)
-    const OAUTH = {
-        google: {
-            url: 'https://accounts.google.com/o/oauth2/v2/auth',
-            flow: 'id_token',
-            params: {
-                client_id: '821108037779-mef1c5n17lp5cg51ggupn9oif57gbgdj.apps.googleusercontent.com',
-                redirect_uri: 'https://thekpihub.com/',
-                response_type: 'id_token',
-                scope: 'openid email profile',
-                nonce: '__NONCE__'
-            }
-        },
-        microsoft: {
-            url: 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
-            flow: 'id_token',
-            params: {
-                client_id: 'deb77aef-1a92-4946-84aa-a1ec65689031',
-                redirect_uri: 'https://thekpihub.com/',
-                response_type: 'id_token',
-                scope: 'openid email profile',
-                nonce: '__NONCE__'
-            }
-        },
-        github: {
-            url: 'https://github.com/login/oauth/authorize',
-            flow: 'code',
-            params: {
-                client_id: 'Ov23ligNelhaVmNRujnx',
-                redirect_uri: 'https://github-oauth.thekpihub.workers.dev/callback',
-                scope: 'user:email'
-            }
-        },
-        yahoo: {
-            url: 'https://api.login.yahoo.com/oauth2/request_auth',
-            flow: 'id_token',
-            params: {
-                client_id: 'dj0yJmk9V25vbkpRb1NpaURTJmQ9WVdrOU5VcEdhWEY0U3pVbWNHbzlNQT09JnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PWU5',
-                redirect_uri: 'https://thekpihub.com/',
-                response_type: 'id_token',
-                scope: 'openid email profile',
-                nonce: '__NONCE__'
-            }
-        },
-        discord: {
-            url: 'https://discord.com/api/oauth2/authorize',
-            flow: 'token',
-            params: {
-                client_id: '1489508051198279771',
-                redirect_uri: 'https://thekpihub.com/',
-                response_type: 'token',
-                scope: 'identify email'
-            }
-        }
-    };
-
-    function socialLogin(provider) {
-        const cfg = OAUTH[provider];
-        if (!cfg) return;
-
-        // Generate a cryptographic nonce for OIDC id_token flows
-        const nonce = Math.random().toString(36).slice(2) + Date.now().toString(36);
-        localStorage.setItem('oauth_pending_provider', provider);
-        localStorage.setItem('oauth_nonce', nonce);
-
-        // Build params — replace __NONCE__ placeholder
-        const p = {};
-        for (const [k, v] of Object.entries(cfg.params)) {
-            p[k] = v === '__NONCE__' ? nonce : v;
-        }
-        window.location.href = cfg.url + '?' + new URLSearchParams(p).toString();
-    }
-
-    // ── OAuth Callback Handler ──────────────────────────────
-    // Handles three return patterns:
-    //   #id_token=…       → Google, Microsoft, Yahoo (OIDC — decode JWT for email)
-    //   #access_token=…   → Discord (fetch /users/@me)
-    //   #github_email=…   → GitHub via Cloudflare Worker (worker exchanges code, returns email in hash)
-    //   ?code=…           → GitHub fallback before worker is deployed
-    (function handleOAuthCallback() {
-        const hashParams  = new URLSearchParams(window.location.hash.slice(1));
-        const queryParams = new URLSearchParams(window.location.search);
-        const provider    = localStorage.getItem('oauth_pending_provider');
-
-        // ── GitHub Worker return: #github_email=user@example.com ──
-        const githubEmail = hashParams.get('github_email');
-        const githubError = hashParams.get('github_email_error');
-        if (githubEmail || githubError) {
-            history.replaceState(null, '', window.location.pathname);
-            localStorage.removeItem('oauth_pending_provider');
-            localStorage.removeItem('oauth_nonce');
-            if (githubEmail) {
-                const input = document.getElementById('emailInput');
-                if (input) { input.value = githubEmail; input.dispatchEvent(new Event('input')); }
-                const section = document.getElementById('waitlist');
-                if (section) section.scrollIntoView({ behavior: 'smooth' });
-                const msg = document.getElementById('successMsg');
-                if (msg) {
-                    msg.style.display = 'block';
-                    msg.style.color = '#00C9A7';
-                    msg.style.borderColor = 'rgba(0,201,167,0.4)';
-                    msg.style.background = 'rgba(0,201,167,0.08)';
-                    msg.textContent = '✅ Signed in with GitHub! Your email is pre-filled — hit "Join Waitlist" to confirm.';
-                    setTimeout(() => { msg.style.cssText = ''; }, 7000);
-                }
-            } else {
-                const msg = document.getElementById('successMsg');
-                if (msg) {
-                    msg.style.display = 'block';
-                    msg.style.color = '#E9A123';
-                    msg.style.borderColor = 'rgba(233,161,35,0.4)';
-                    msg.style.background = 'rgba(233,161,35,0.08)';
-                    msg.textContent = '⚠️ GitHub sign-in failed. Please enter your email manually.';
-                    setTimeout(() => { msg.style.cssText = ''; }, 5000);
-                }
-            }
-            return;
-        }
-
-        if (!provider) return;
-
-        const idToken     = hashParams.get('id_token');
-        const accessToken = hashParams.get('access_token');
-        const code        = queryParams.get('code');
-        if (!idToken && !accessToken && !code) return;
-
-        // Clean URL and state
-        history.replaceState(null, '', window.location.pathname);
-        localStorage.removeItem('oauth_pending_provider');
-        localStorage.removeItem('oauth_nonce');
-
-        const pname = provider.charAt(0).toUpperCase() + provider.slice(1);
-
-        function fillAndNotify(email, message) {
-            if (email) {
-                const input = document.getElementById('emailInput');
-                if (input) { input.value = email; input.dispatchEvent(new Event('input')); }
-            }
-            const section = document.getElementById('waitlist');
-            if (section) section.scrollIntoView({ behavior: 'smooth' });
-            const msg = document.getElementById('successMsg');
-            if (msg) {
-                msg.style.display  = 'block';
-                msg.style.color    = email ? '#00C9A7' : '#E9A123';
-                msg.style.borderColor = email ? 'rgba(0,201,167,0.4)' : 'rgba(233,161,35,0.4)';
-                msg.style.background  = email ? 'rgba(0,201,167,0.08)' : 'rgba(233,161,35,0.08)';
-                msg.textContent = message;
-                setTimeout(() => { msg.style.cssText = ''; }, 7000);
-            }
-        }
-
-        if (idToken) {
-            // Decode JWT payload — base64url → JSON → email (no signature verification needed for display)
-            try {
-                const payload = JSON.parse(atob(idToken.split('.')[1].replace(/-/g,'+').replace(/_/g,'/')));
-                const email   = payload.email || '';
-                fillAndNotify(email,
-                    email
-                        ? '✅ Signed in with ' + pname + '! Your email is pre-filled — hit "Join Waitlist" to confirm.'
-                        : '✅ Signed in with ' + pname + '! Enter your email below to complete signup.');
-            } catch(e) {
-                fillAndNotify('', '✅ Signed in with ' + pname + '! Enter your email below to join the waitlist.');
-            }
-        } else if (accessToken && provider === 'discord') {
-            fetch('https://discord.com/api/users/@me', {
-                headers: { Authorization: 'Bearer ' + accessToken }
-            })
-            .then(r => r.json())
-            .then(d => fillAndNotify(d.email || '',
-                d.email
-                    ? '✅ Signed in with Discord! Your email is pre-filled — hit "Join Waitlist" to confirm.'
-                    : '✅ Signed in with Discord! Enter your email below to join the waitlist.'))
-            .catch(() => fillAndNotify('', '✅ Discord auth received! Enter your email below to join the waitlist.'));
-        } else if (code && provider === 'github') {
-            // Pre-worker fallback: prompt user to enter email manually
-            fillAndNotify('', '✅ GitHub auth received! Enter your email below to complete your waitlist signup.');
-        }
-    })();
-</script>
-
-<!-- ============================================================
-     KPI HUB BOT — Role-Based AI Assistant
-     Roles: Info · Support · CEO Contact · Bot Alerts · Ideas
-============================================================ -->
-<style>
-/* ---- Bot Launcher ---- */
-#kpibot-launcher {
-    position:fixed; bottom:28px; right:28px; z-index:9999;
-    width:60px; height:60px; border-radius:50%;
-    background:linear-gradient(135deg,#E9A123,#c97e10);
-    border:none; cursor:pointer;
-    box-shadow:0 4px 24px rgba(233,161,35,0.5);
-    display:flex; align-items:center; justify-content:center;
-    transition:transform 0.2s,box-shadow 0.2s;
-    animation:bot-pulse 2.5s infinite;
-}
-#kpibot-launcher:hover { transform:scale(1.08); box-shadow:0 6px 32px rgba(233,161,35,0.7); }
-@keyframes bot-pulse {
-    0%,100% { box-shadow:0 4px 24px rgba(233,161,35,0.5); }
-    50%      { box-shadow:0 4px 36px rgba(233,161,35,0.8); }
-}
-#kpibot-badge {
-    position:absolute; top:-4px; right:-4px;
-    width:18px; height:18px; border-radius:50%;
-    background:#00C9A7; border:2px solid #06071A;
-    font-size:10px; color:#06071A; font-weight:700;
-    display:flex; align-items:center; justify-content:center;
-}
-/* ---- Bot Window ---- */
-#kpibot-window {
-    position:fixed; bottom:100px; right:28px; z-index:9998;
-    width:380px; max-height:580px;
-    background:#0C0E28; border:1px solid rgba(255,255,255,0.1);
-    border-radius:20px; display:none; flex-direction:column;
-    box-shadow:0 20px 60px rgba(0,0,0,0.6);
-    overflow:hidden; font-family:'DM Sans',sans-serif;
-}
-#kpibot-window.open { display:flex; animation:bot-slide-in 0.3s ease; }
-@keyframes bot-slide-in {
-    from { opacity:0; transform:translateY(20px) scale(0.97); }
-    to   { opacity:1; transform:translateY(0) scale(1); }
-}
-/* Header */
-#kpibot-header {
-    padding:16px 20px; background:linear-gradient(135deg,rgba(233,161,35,0.15),rgba(0,201,167,0.08));
-    border-bottom:1px solid rgba(255,255,255,0.08);
-    display:flex; align-items:center; gap:12px;
-}
-#kpibot-avatar {
-    width:40px; height:40px; border-radius:50%;
-    background:linear-gradient(135deg,#E9A123,#00C9A7);
-    display:flex; align-items:center; justify-content:center;
-    font-size:20px; flex-shrink:0;
-}
-#kpibot-header-info { flex:1; }
-#kpibot-header-info h4 { margin:0; font-size:0.9rem; font-weight:700; color:#EAEDF5; }
-#kpibot-header-info p  { margin:0; font-size:0.72rem; color:#00C9A7; }
-#kpibot-close {
-    background:none; border:none; color:rgba(234,237,245,0.5);
-    cursor:pointer; font-size:1.2rem; padding:4px; line-height:1;
-    transition:color 0.2s;
-}
-#kpibot-close:hover { color:#EAEDF5; }
-/* Role Chips */
-#kpibot-roles {
-    padding:12px 16px; display:flex; flex-wrap:wrap; gap:8px;
-    border-bottom:1px solid rgba(255,255,255,0.06);
-}
-.role-chip {
-    padding:5px 12px; border-radius:20px; font-size:0.72rem;
-    font-weight:600; cursor:pointer; border:1px solid transparent;
-    transition:all 0.2s; letter-spacing:0.02em;
-}
-.role-chip.info    { background:rgba(233,161,35,0.12); color:#E9A123; border-color:rgba(233,161,35,0.25); }
-.role-chip.support { background:rgba(255,107,107,0.12); color:#FF6B6B; border-color:rgba(255,107,107,0.25); }
-.role-chip.ideas   { background:rgba(0,201,167,0.12);  color:#00C9A7; border-color:rgba(0,201,167,0.25); }
-.role-chip.ceo     { background:rgba(139,92,246,0.12); color:#8B5CF6; border-color:rgba(139,92,246,0.25); }
-.role-chip:hover { transform:translateY(-1px); opacity:0.85; }
-.role-chip.active { opacity:1; transform:translateY(-1px); }
-/* Messages */
-#kpibot-messages {
-    flex:1; overflow-y:auto; padding:16px;
-    display:flex; flex-direction:column; gap:12px;
-    scroll-behavior:smooth;
-}
-#kpibot-messages::-webkit-scrollbar { width:4px; }
-#kpibot-messages::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.1); border-radius:2px; }
-.bot-msg, .user-msg {
-    max-width:86%; padding:11px 14px; border-radius:14px;
-    font-size:0.83rem; line-height:1.55; word-wrap:break-word;
-}
-.bot-msg {
-    background:rgba(255,255,255,0.06); color:#EAEDF5;
-    border-bottom-left-radius:4px; align-self:flex-start;
-    border:1px solid rgba(255,255,255,0.08);
-}
-.bot-msg.role-info    { border-left:3px solid #E9A123; }
-.bot-msg.role-support { border-left:3px solid #FF6B6B; }
-.bot-msg.role-ideas   { border-left:3px solid #00C9A7; }
-.bot-msg.role-ceo     { border-left:3px solid #8B5CF6; }
-.user-msg {
-    background:linear-gradient(135deg,rgba(233,161,35,0.2),rgba(233,161,35,0.1));
-    color:#EAEDF5; border-bottom-right-radius:4px;
-    align-self:flex-end; border:1px solid rgba(233,161,35,0.2);
-}
-.typing-dots {
-    display:flex; gap:4px; padding:4px 2px; align-items:center;
-}
-.typing-dots span {
-    width:6px; height:6px; border-radius:50%;
-    background:rgba(234,237,245,0.4);
-    animation:dot-bounce 1.2s infinite;
-}
-.typing-dots span:nth-child(2) { animation-delay:0.2s; }
-.typing-dots span:nth-child(3) { animation-delay:0.4s; }
-@keyframes dot-bounce {
-    0%,60%,100% { transform:translateY(0); }
-    30%          { transform:translateY(-6px); }
-}
-/* Quick Replies */
-#kpibot-quick { padding:8px 16px; display:flex; flex-wrap:wrap; gap:7px; }
-.quick-btn {
-    padding:5px 12px; border-radius:16px; font-size:0.74rem;
-    background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1);
-    color:rgba(234,237,245,0.75); cursor:pointer; transition:all 0.15s;
-    font-family:'DM Sans',sans-serif;
-}
-.quick-btn:hover { background:rgba(233,161,35,0.12); border-color:rgba(233,161,35,0.3); color:#E9A123; }
-/* Input */
-#kpibot-input-row {
-    padding:12px 16px; border-top:1px solid rgba(255,255,255,0.08);
-    display:flex; gap:8px; align-items:center;
-}
-#kpibot-input {
-    flex:1; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1);
-    border-radius:10px; padding:10px 14px; color:#EAEDF5;
-    font-family:'DM Sans',sans-serif; font-size:0.83rem;
-    outline:none; resize:none; max-height:80px;
-    transition:border-color 0.2s;
-}
-#kpibot-input::placeholder { color:rgba(234,237,245,0.3); }
-#kpibot-input:focus { border-color:rgba(233,161,35,0.4); }
-#kpibot-send {
-    width:38px; height:38px; border-radius:10px; flex-shrink:0;
-    background:linear-gradient(135deg,#E9A123,#c97e10);
-    border:none; cursor:pointer; display:flex;
-    align-items:center; justify-content:center;
-    transition:opacity 0.2s,transform 0.2s;
-}
-#kpibot-send:hover { opacity:0.85; transform:scale(1.05); }
-#kpibot-footer {
-    text-align:center; padding:6px 0 10px;
-    font-size:0.65rem; color:rgba(234,237,245,0.2);
-}
-</style>
-
-<!-- Bot Launcher Button -->
-<button id="kpibot-launcher" onclick="toggleBot()" aria-label="Open KPI Hub Assistant">
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z" fill="white" opacity="0"/>
-        <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z" fill="white"/>
-        <circle cx="8.5" cy="11" r="1.5" fill="#E9A123"/>
-        <circle cx="12" cy="11" r="1.5" fill="#E9A123"/>
-        <circle cx="15.5" cy="11" r="1.5" fill="#E9A123"/>
-    </svg>
-    <div id="kpibot-badge">1</div>
-</button>
-
-<!-- Bot Window -->
-<div id="kpibot-window">
-    <div id="kpibot-header">
-        <div id="kpibot-avatar">🤖</div>
-        <div id="kpibot-header-info">
-            <h4>KPI Hub Assistant</h4>
-            <p>● Online — Powered by AI</p>
-        </div>
-        <button onclick="clearChatHistory(); document.getElementById('kpibot-messages').innerHTML=''; BOT.historyLoaded=false;" style="background:none;border:none;color:rgba(255,255,255,0.3);font-size:0.65rem;cursor:pointer;margin-left:auto;padding:2px 6px;" title="Clear chat history">✕ clear</button>
-        <button id="kpibot-close" onclick="toggleBot()">✕</button>
-    </div>
-    <div id="kpibot-roles">
-        <span class="role-chip info active"    onclick="switchRole('info')"   >📋 Info</span>
-        <span class="role-chip support"         onclick="switchRole('support')">🛠 Support</span>
-        <span class="role-chip ideas"           onclick="switchRole('ideas')"  >💡 Ideas</span>
-        <span class="role-chip ceo"             onclick="switchRole('ceo')"    >📩 Contact CEO</span>
-    </div>
-    <div id="kpibot-messages"></div>
-    <div id="kpibot-quick"></div>
-    <div id="kpibot-input-row">
-        <textarea id="kpibot-input" rows="1" placeholder="Ask anything about The KPI Hub…"></textarea>
-        <button id="kpibot-send" onclick="sendMessage()">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="white">
-                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
-            </svg>
-        </button>
-    </div>
-    <div id="kpibot-footer">🤖 AI Assistant — always discloses it is not human</div>
-</div>
-
-<script>
-/* ================================================================
-   THE KPI HUB — ROLE-BASED BOT ENGINE
-   Roles: Info | Support | Ideas | CEO Contact
-   All responses are role-scoped and accurate to platform data.
-================================================================ */
-const BOT = {
-    currentRole: 'info',
-    isOpen: false,
-    userEmail: null,
-    conversationHistory: [],
-    lastTicketId: null,
-    historyLoaded: false,
-
-    roles: {
-        info: {
-            label: '📋 Info',
-            color: '#E9A123',
-            intro: "Hi! 👋 I'm the **KPI Hub Assistant** — an AI bot (not a human). I handle general information about The KPI Hub platform.\n\nAsk me anything about our features, how it works, pricing, or early access!",
-            quickReplies: ['What is The KPI Hub?','How does it work?','When does it launch?','What features are included?'],
-            persona: 'You are the Information & General Inquiries bot for The KPI Hub — a decision-grade SaaS intelligence platform. Answer questions about the platform clearly and accurately. The KPI Hub synthesizes real-time SaaS industry intelligence using AI. Features: KPI Intelligence Feed, SaaS Discovery Engine, Benchmark Tracker, AI Research Assistant, Smart Alert System, Decision Reports. Currently in early access waitlist. Built in Delhi, India.',
-        },
-        support: {
-            label: '🛠 Support',
-            color: '#FF6B6B',
-            intro: "Hi! I'm the **Support Bot** 🛠️ — an AI assistant (not a human agent). I'm here to help with issues, bugs, and technical questions.\n\nDescribe your problem and I'll help you resolve it or escalate to our team.",
-            quickReplies: ['I found a bug','I have a billing question','How do I reset my password?','I need help with setup'],
-            persona: 'You are the Support Bot for The KPI Hub. Help users with technical issues, bugs, account problems, and troubleshooting. For billing issues, escalate to ceo@thekpihub.com. For serious bugs, ask for a description and say the team will be notified at support@thekpihub.com. Always be helpful, empathetic, and collect the user\'s email for follow-up.',
-        },
-        ideas: {
-            label: '💡 Ideas',
-            color: '#00C9A7',
-            intro: "Hi! I'm the **Ideas Collector** 💡 — an AI bot logging suggestions for The KPI Hub product team.\n\nShare your feature ideas, improvements, or feedback. Every idea is reviewed personally by the team!",
-            quickReplies: ['I have a feature request','Here\'s my feedback','I want to suggest an improvement','What features are planned?'],
-            persona: 'You are the Ideas & Feedback Bot for The KPI Hub. Collect feature requests, suggestions, and user feedback enthusiastically. Ask clarifying questions to understand the idea fully. Acknowledge each idea positively. Tell users their idea goes directly to ideas@thekpihub.com and the product team reviews weekly.',
-        },
-        ceo: {
-            label: '📩 CEO',
-            color: '#8B5CF6',
-            intro: "Hi! This channel connects to **The KPI Hub CEO** 📩. I'm an AI assistant that helps route strategic, investment, and partnership inquiries to the right person.\n\nPlease share your message and contact details and you'll receive a personal reply.",
-            quickReplies: ['I\'m an investor','Partnership opportunity','Media / Press inquiry','Strategic collaboration'],
-            persona: 'You are the CEO Contact Bot for The KPI Hub. Handle investor inquiries, strategic partnerships, press and media requests, and high-level business conversations. Be professional and executive-tone. Collect the person\'s name, company, and email. Tell them their message will be forwarded to ceo@thekpihub.com for a personal reply within 24-48 hours.',
-        }
-    },
-
-    /* Knowledge Base — accurate facts about the platform */
-    kb: {
-        "what is the kpi hub": "The KPI Hub is an AI-powered SaaS intelligence platform that synthesizes real-time industry data into decision-grade insights. We track 10,000+ SaaS tools, monitor 500+ data sources 24/7, and deliver clean, actionable intelligence — zero fluff.",
-        "how does it work": "We run a 3-engine pipeline:\n\n**01 Harvest** — Our Python engine pulls from thousands of sources (RSS, Twitter/X, financial news, market data) via cron jobs.\n\n**02 Synthesize** — AI models cross-verify every data point using our SerpAPI verification matrix.\n\n**03 Deliver** — You get clean, decision-ready insights tailored to your vertical.",
-        "pricing": "We're currently in pre-launch. Pricing details will be announced at launch. Join the waitlist at the top of this page to get early access pricing — waitlist members get priority access and special rates.",
-        "launch date": "We're in active development and building the waitlist. Join now for priority access and we'll notify you the moment we launch.",
-        "features": "The KPI Hub offers:\n📊 KPI Intelligence Feed\n🔍 SaaS Discovery Engine\n📈 Benchmark Tracker\n🤖 AI Research Assistant\n🔔 Smart Alert System\n💡 Decision Reports",
-        "contact": "You can reach us at:\n📧 General: info@thekpihub.com\n🛠 Support: support@thekpihub.com\n💡 Ideas: ideas@thekpihub.com\n📩 CEO: ceo[at]thekpihub[dot]com",
-        "refund": "We haven't launched paid plans yet. For any billing concerns once we do launch, please contact ceo[at]thekpihub[dot]com",
-        "data privacy": "We take privacy seriously. Your data is never sold. We comply with GDPR and applicable data protection laws. Full Privacy Policy coming at launch.",
-        "who built": "The KPI Hub was built by a team based in Delhi, India, combining AI/ML expertise with deep SaaS market knowledge.",
-    },
-
-    findAnswer(text) {
-        const t = text.toLowerCase();
-        for (const [key, val] of Object.entries(this.kb)) {
-            if (key.split(' ').some(k => t.includes(k))) return val;
-        }
-        return null;
-    }
-};
-
-function generateTicketId() {
-    return 'KPI-' + Math.floor(1000 + Math.random() * 9000);
-}
-
-function saveChatHistory() {
-    try {
-        const msgs = document.querySelectorAll('#kpibot-messages .bot-msg, #kpibot-messages .user-msg');
-        const history = Array.from(msgs).slice(-20).map(el => ({
-            type: el.classList.contains('user-msg') ? 'user' : 'bot',
-            html: el.innerHTML,
-            role: el.dataset.role || 'info'
-        }));
-        localStorage.setItem('kpihub_chat_history', JSON.stringify(history));
-        localStorage.setItem('kpihub_chat_role', BOT.currentRole);
-    } catch(e) {}
-}
-
-function loadChatHistory() {
-    try {
-        const saved = localStorage.getItem('kpihub_chat_history');
-        const savedRole = localStorage.getItem('kpihub_chat_role');
-        if (!saved) return false;
-        const history = JSON.parse(saved);
-        if (!history.length) return false;
-        const container = document.getElementById('kpibot-messages');
-        // Clear default intro message
-        container.innerHTML = '';
-        history.forEach(item => {
-            const div = document.createElement('div');
-            div.className = item.type === 'user' ? 'user-msg' : 'bot-msg';
-            if (item.role) div.dataset.role = item.role;
-            div.innerHTML = item.html;
-            container.appendChild(div);
-        });
-        // Restore role
-        if (savedRole && BOT.roles[savedRole]) {
-            BOT.currentRole = savedRole;
-            document.querySelectorAll('.role-btn').forEach(b => {
-                b.classList.toggle('active', b.dataset.role === savedRole);
-            });
-        }
-        // Add a "continuing session" note
-        const note = document.createElement('div');
-        note.className = 'bot-msg';
-        note.style.opacity = '0.6';
-        note.style.fontSize = '0.75rem';
-        note.innerHTML = '↩ <em>Continuing your previous conversation</em>';
-        container.appendChild(note);
-        container.scrollTop = container.scrollHeight;
-        return true;
-    } catch(e) { return false; }
-}
-
-function clearChatHistory() {
-    localStorage.removeItem('kpihub_chat_history');
-    localStorage.removeItem('kpihub_chat_role');
-}
-
-/* ---- Role-specific response generator ---- */
-function generateResponse(userText, role) {
-    const t = userText.toLowerCase().trim();
-    const r = BOT.roles[role];
-
-    // Check knowledge base first
-    const kbAnswer = BOT.findAnswer(t);
-    if (kbAnswer && role === 'info') return kbAnswer;
-
-    // Role-specific responses
-    if (role === 'support') {
-        if (t.includes('bug') || t.includes('error') || t.includes('broken') || t.includes('not working'))
-            return "I'm sorry to hear that! 🔧 Please describe the issue in detail — what page you were on, what you were trying to do, and what happened. I'll log this for our engineering team at support@thekpihub.com and they'll investigate within 24 hours.\n\nCould you also share your email so we can follow up directly?";
-        if (t.includes('billing') || t.includes('charge') || t.includes('payment') || t.includes('refund'))
-            return "For billing matters, I'm escalating this to our CEO directly. Please share your email and a brief description of the issue — you'll hear back from ceo[at]thekpihub[dot]com within 24 hours. 💳";
-        if (t.includes('password') || t.includes('login') || t.includes('account'))
-            return "For account access issues: please contact support@thekpihub.com with your registered email. Our team will verify your identity and assist within a few hours. 🔐";
-        return "I've noted your support request! 📝 To make sure our team resolves this quickly, please:\n\n1. Share your email address\n2. Describe the issue in detail\n3. Include any error messages or screenshots\n\nOur support team at support@thekpihub.com will respond within **24 hours**.";
-    }
-
-    if (role === 'ideas') {
-        if (t.includes('feature') || t.includes('request') || t.includes('add') || t.includes('build') || t.includes('want'))
-            return "That's a fantastic idea! 🎯 I've captured your suggestion. Our product team reviews all ideas every Monday at our weekly sync.\n\nTo make sure your idea gets full consideration:\n- What problem does it solve?\n- How often would you use it?\n\nYour feedback goes directly to ideas@thekpihub.com — the team reads every single one.";
-        if (t.includes('feedback') || t.includes('improve') || t.includes('better') || t.includes('suggest'))
-            return "Thank you for your feedback! 💡 This is exactly how great products are built — user insight.\n\nI've logged this and it'll be in front of the product team this week. If you'd like us to follow up with you once we act on your suggestion, share your email and we'll loop you in!";
-        return "Love hearing from you! 💚 Your idea has been logged for the product team. Every suggestion at ideas@thekpihub.com gets personally reviewed.\n\nWant to share more context or a follow-up email so we can notify you when your idea ships?";
-    }
-
-    if (role === 'ceo') {
-        if (t.includes('invest') || t.includes('fund') || t.includes('capital') || t.includes('vc'))
-            return "Thank you for your interest in The KPI Hub! 🚀 We appreciate you reaching out about investment opportunities.\n\nTo ensure the CEO gets your message promptly, please share:\n• Your name & firm\n• Brief investment thesis or interest\n• Best contact email & timezone\n\nAll investor inquiries receive a personal response within **24-48 hours** via ceo[at]thekpihub[dot]com.";
-        if (t.includes('partner') || t.includes('collaborat') || t.includes('integrat'))
-            return "Strategic partnerships are a core part of how we grow. 🤝 The CEO would love to explore this with you.\n\nPlease share:\n• Company name and what you do\n• Nature of the partnership you have in mind\n• Your contact email\n\nWe'll respond within **48 hours** from ceo[at]thekpihub[dot]com.";
-        if (t.includes('press') || t.includes('media') || t.includes('journalist') || t.includes('interview'))
-            return "Thanks for your media interest in The KPI Hub! 📰 We love sharing our story.\n\nPlease share your publication/outlet name and what you're covering — the CEO personally handles all press inquiries at ceo[at]thekpihub[dot]com. Expect a response within **24 hours**.";
-        return "Thank you for reaching out! Your message will be forwarded directly to the CEO at ceo[at]thekpihub[dot]com.\n\nTo ensure a personal reply, please share:\n• Your name\n• Company / Organization\n• Contact email\n• Brief description of your inquiry\n\nYou'll receive a personal response within **24-48 hours**. 🙏";
-    }
-
-    // Default info role
-    if (kbAnswer) return kbAnswer;
-    if (t.includes('hello') || t.includes('hi') || t.includes('hey'))
-        return "Hey there! 👋 Great to have you here. I'm the KPI Hub AI Assistant.\n\nI can tell you about our platform, how it works, features, early access, and more. What would you like to know?";
-    if (t.includes('waitlist') || t.includes('early access') || t.includes('sign up') || t.includes('join'))
-        return "You can join our early access waitlist right on this page! 🚀\n\nScroll up to the **Early Access** section, enter your work email, and you'll be added to the priority list. Waitlist members get:\n✅ Priority access at launch\n✅ Founding member pricing\n✅ Direct input into product roadmap";
-    if (t.includes('thank') || t.includes('thanks'))
-        return "You're very welcome! 😊 Is there anything else I can help you with? Remember — I'm an AI assistant, so for complex matters our human team is always reachable at info@thekpihub.com.";
-
-    return "Great question! 🤔 I want to give you the most accurate answer.\n\nFor detailed information on this, I'd recommend:\n📧 **Email us:** info@thekpihub.com\n💬 **Or describe it differently** and I'll do my best to help!\n\nRemember: I'm an AI assistant — for matters requiring human judgment, our team always responds within 24 hours.";
-}
-
-/* ---- UI Functions ---- */
-function toggleBot() {
-    BOT.isOpen = !BOT.isOpen;
-    const win = document.getElementById('kpibot-window');
-    win.classList.toggle('open', BOT.isOpen);
-    if (BOT.isOpen) {
-        document.getElementById('kpibot-badge').style.display = 'none';
-        if (!BOT.historyLoaded) {
-            BOT.historyLoaded = true;
-            const restored = loadChatHistory();
-            if (!restored && document.getElementById('kpibot-messages').children.length === 0) {
-                setTimeout(() => showIntro(BOT.currentRole), 200);
-            }
-        } else if (document.getElementById('kpibot-messages').children.length === 0) {
-            setTimeout(() => showIntro(BOT.currentRole), 200);
-        }
-        setTimeout(() => document.getElementById('kpibot-input').focus(), 400);
-    }
-}
-
-function showIntro(role) {
-    addTyping();
-    setTimeout(() => {
-        removeTyping();
-        addBotMsg(BOT.roles[role].intro, role);
-        showQuickReplies(BOT.roles[role].quickReplies);
-    }, 900);
-}
-
-function switchRole(role) {
-    BOT.currentRole = role;
-    document.querySelectorAll('.role-chip').forEach(c => c.classList.remove('active'));
-    document.querySelector('.role-chip.' + role).classList.add('active');
-    clearQuickReplies();
-    addTyping();
-    setTimeout(() => {
-        removeTyping();
-        addBotMsg(BOT.roles[role].intro, role);
-        showQuickReplies(BOT.roles[role].quickReplies);
-    }, 700);
-}
-
-function addBotMsg(text, role) {
-    const msgs = document.getElementById('kpibot-messages');
-    const div = document.createElement('div');
-    div.className = 'bot-msg role-' + (role || BOT.currentRole);
-    div.dataset.role = role || BOT.currentRole;
-    // Convert **bold** markdown
-    div.innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
-    msgs.appendChild(div);
-    msgs.scrollTop = msgs.scrollHeight;
-    saveChatHistory();
-}
-
-function addUserMsg(text) {
-    const msgs = document.getElementById('kpibot-messages');
-    const div = document.createElement('div');
-    div.className = 'user-msg';
-    div.textContent = text;
-    msgs.appendChild(div);
-    msgs.scrollTop = msgs.scrollHeight;
-    saveChatHistory();
-}
-
-function addTyping() {
-    const msgs = document.getElementById('kpibot-messages');
-    const div = document.createElement('div');
-    div.className = 'bot-msg role-' + BOT.currentRole;
-    div.id = 'typing-indicator';
-    div.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
-    msgs.appendChild(div);
-    msgs.scrollTop = msgs.scrollHeight;
-}
-
-function removeTyping() {
-    const t = document.getElementById('typing-indicator');
-    if (t) t.remove();
-}
-
-function showQuickReplies(replies) {
-    const qr = document.getElementById('kpibot-quick');
-    qr.innerHTML = '';
-    replies.forEach(r => {
-        const btn = document.createElement('button');
-        btn.className = 'quick-btn';
-        btn.textContent = r;
-        btn.onclick = () => { handleUserInput(r); };
-        qr.appendChild(btn);
-    });
-}
-
-function clearQuickReplies() {
-    document.getElementById('kpibot-quick').innerHTML = '';
-}
-
-function sendMessage() {
-    const input = document.getElementById('kpibot-input');
-    const text = input.value.trim();
-    if (!text) return;
-    input.value = '';
-    input.style.height = 'auto';
-    handleUserInput(text);
-}
-
-function handleUserInput(text) {
-    addUserMsg(text);
-    clearQuickReplies();
-
-    // Check for email in message
-    const emailMatch = text.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
-    if (emailMatch) {
-        BOT.userEmail = emailMatch[0];
-        addTyping();
-        setTimeout(() => {
-            removeTyping();
-            addBotMsg("✅ Got it — I've noted your email. **Privacy notice:** Your email is collected only to follow up on this conversation. We never sell your data. You can request deletion at any time by emailing info@thekpihub.com. See our [Privacy Policy](privacy.html) for full details.", BOT.currentRole);
-        }, 600);
-    }
-
-    addTyping();
-    const delay = 800 + Math.random() * 600;
-    setTimeout(() => {
-        removeTyping();
-        const response = generateResponse(text, BOT.currentRole);
-        let finalResponse = response;
-        if (BOT.currentRole === 'support' && /issue|bug|error|problem|broken|not work|crash|fix|team|engineer|24 hour/i.test(response)) {
-            const ticketId = generateTicketId();
-            BOT.lastTicketId = ticketId;
-            finalResponse = response + '\n\n🎫 **Ticket ID: ' + ticketId + '** — Save this for follow-up.';
-        }
-        addBotMsg(finalResponse, BOT.currentRole);
-
-        // Show follow-up quick replies based on response
-        if (BOT.currentRole === 'info') {
-            showQuickReplies(['Tell me more','How do I join?','What\'s the pricing?','Contact the team']);
-        } else if (BOT.currentRole === 'support') {
-            showQuickReplies(['I have another issue','Escalate to team','Email me a response']);
-        } else if (BOT.currentRole === 'ideas') {
-            showQuickReplies(['Add more details','Submit another idea','How are ideas reviewed?']);
-        } else if (BOT.currentRole === 'ceo') {
-            showQuickReplies(['Schedule a call','Send pitch deck','Get in touch directly']);
-        }
-    }, delay);
-}
-
-/* ---- Input auto-resize ---- */
-document.getElementById('kpibot-input').addEventListener('input', function() {
-    this.style.height = 'auto';
-    this.style.height = Math.min(this.scrollHeight, 80) + 'px';
-});
-document.getElementById('kpibot-input').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
-});
-
-/* ---- Show badge after 8s to invite engagement ---- */
-setTimeout(() => {
-    if (!BOT.isOpen) {
-        document.getElementById('kpibot-badge').textContent = '👋';
-        document.getElementById('kpibot-badge').style.width = '22px';
-        document.getElementById('kpibot-badge').style.height = '22px';
-        document.getElementById('kpibot-badge').style.fontSize = '11px';
-    }
-}, 8000);
-
-// Cookie Consent
-function initCookieBanner() {
-    if (!localStorage.getItem('kpihub_cookie_consent')) {
-        setTimeout(() => {
-            const banner = document.getElementById('cookie-banner');
-            if (banner) banner.classList.add('visible');
-        }, 1500);
-    }
-}
-function cookieConsent(type) {
-    localStorage.setItem('kpihub_cookie_consent', type);
-    localStorage.setItem('kpihub_cookie_consent_date', new Date().toISOString());
-    const banner = document.getElementById('cookie-banner');
-    if (banner) {
-        banner.style.transform = 'translateY(100%)';
-        setTimeout(() => banner.remove(), 400);
-    }
-}
-initCookieBanner();
 </script>
 
 </body>
