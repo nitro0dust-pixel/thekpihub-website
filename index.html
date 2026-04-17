@@ -741,6 +741,40 @@
         }
 
         /* =============================================
+           FOUNDER SECTION
+        ============================================= */
+        .founder-section{padding:64px 24px;
+          border-top:1px solid rgba(233,161,35,0.15);
+          border-bottom:1px solid rgba(233,161,35,0.15);}
+        .founder-container{max-width:720px;margin:0 auto;
+          display:flex;align-items:center;gap:32px;}
+        .founder-image-wrap img{width:88px;height:88px;
+          border-radius:50%;object-fit:cover;
+          border:2px solid rgba(233,161,35,0.4);
+          background:rgba(233,161,35,0.08);}
+        .founder-label{font-family:'DM Sans',sans-serif;
+          font-size:10px;letter-spacing:0.15em;color:#E9A123;
+          opacity:0.7;text-transform:uppercase;margin:0 0 4px 0;}
+        .founder-name{font-family:'Syne',sans-serif;font-size:22px;
+          font-weight:700;color:#fff;margin:0 0 2px 0;}
+        .founder-title{font-family:'DM Sans',sans-serif;font-size:13px;
+          color:rgba(255,255,255,0.45);margin:0 0 12px 0;}
+        .founder-bio{font-family:'DM Sans',sans-serif;font-size:14px;
+          line-height:1.65;color:rgba(255,255,255,0.7);
+          margin:0 0 16px 0;}
+        .founder-link{display:inline-flex;align-items:center;gap:8px;
+          font-family:'DM Sans',sans-serif;font-size:13px;
+          color:#E9A123;text-decoration:none;
+          border:1px solid rgba(233,161,35,0.3);
+          padding:7px 16px;border-radius:6px;
+          transition:border-color 0.2s,background 0.2s;}
+        .founder-link:hover{border-color:#E9A123;
+          background:rgba(233,161,35,0.06);}
+        @media(max-width:560px){
+          .founder-container{flex-direction:column;
+            text-align:center;align-items:center;gap:20px;}}
+
+        /* =============================================
            COOKIE CONSENT BANNER
         ============================================= */
         #cookie-banner {
@@ -1169,6 +1203,36 @@
             </div>
         </div>
     </div>
+</section>
+
+<!-- ======================== FOUNDER ======================== -->
+<section class="founder-section" aria-label="About the Founder">
+  <div class="founder-container">
+    <div class="founder-image-wrap">
+      <img id="founder-photo"
+           src="assets/founder.jpg"
+           alt="Himanshu Sharma, Founder of The KPI Hub"
+           width="88" height="88"
+           onerror="this.src='https://ui-avatars.com/api/?name=Himanshu+Sharma&background=06071A&color=E9A123&size=88'">
+    </div>
+    <div class="founder-content">
+      <p class="founder-label">BUILT BY</p>
+      <h3 class="founder-name">Himanshu Sharma</h3>
+      <p class="founder-title">Founder &amp; Lead Builder</p>
+      <p class="founder-bio">Night-shift cloud engineer turned SaaS founder. Building decision-grade intelligence for operators who can&rsquo;t afford to be wrong. Selected &mdash; India&rsquo;s Top 300 Builders, VibeCon 2025.</p>
+      <a href="https://linkedin.com/in/hsharmagxi"
+         target="_blank" rel="noopener noreferrer"
+         class="founder-link"
+         aria-label="Connect with Himanshu on LinkedIn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9A123" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+          <rect x="2" y="9" width="4" height="12"/>
+          <circle cx="4" cy="4" r="2"/>
+        </svg>
+        Connect on LinkedIn
+      </a>
+    </div>
+  </div>
 </section>
 
 <!-- ======================== CTA ======================== -->
