@@ -308,9 +308,9 @@
 
         .hero-h1 {
             font-family: var(--display);
-            font-size: clamp(3.2rem, 7.5vw, 6.2rem);
-            font-weight:700; line-height:1.04;
-            letter-spacing:-0.025em;
+            font-size: clamp(52px, 7vw, 88px);
+            font-weight:800; line-height:1.05;
+            letter-spacing:-0.03em;
             margin-bottom:26px;
             animation: fadeUp 0.8s 0.45s ease both;
         }
@@ -326,6 +326,10 @@
         .hero-actions {
             display:flex; gap:16px; justify-content:center; flex-wrap:wrap;
             animation: fadeUp 0.8s 0.85s ease both;
+        }
+        .cta-group {
+            display:flex; align-items:center; gap:16px;
+            flex-wrap:wrap; justify-content:center;
         }
         .btn-primary {
             display:inline-flex; align-items:center; gap:10px;
@@ -353,6 +357,28 @@
         .btn-ghost:hover {
             border-color:var(--gold-rim); color:var(--text);
             transform:translateY(-2px);
+        }
+        .cta-secondary {
+            display:inline-flex; align-items:center;
+            font-family:var(--body); font-size:15px;
+            font-weight:500; color:rgba(255,255,255,0.7);
+            text-decoration:none; padding:12px 24px;
+            border:1px solid rgba(255,255,255,0.15);
+            border-radius:8px;
+            transition:color 0.2s, border-color 0.2s;
+            white-space:nowrap;
+        }
+        .cta-secondary:hover {
+            color:#E9A123;
+            border-color:rgba(233,161,35,0.4);
+        }
+        @media(max-width:480px) {
+            .cta-group {
+                flex-direction:column; align-items:stretch;
+            }
+            .cta-secondary {
+                text-align:center; justify-content:center;
+            }
         }
 
         /* Floating KPI Cards */
@@ -720,6 +746,7 @@
             .overlay-meta { padding: 20px 32px; }
             section { padding:80px 24px; }
             .hero { padding:110px 24px 70px; }
+            .hero-h1 { font-size:clamp(42px,6vw,64px); }
             .v-grid { grid-template-columns:1fr; }
             .steps { grid-template-columns:1fr; }
             .steps::before { display:none; }
@@ -732,6 +759,7 @@
         @media(max-width:560px){
             body { cursor:auto; }
             .cursor, .cursor-ring { display:none; }
+            .hero-h1 { font-size:clamp(36px,9vw,48px); line-height:1.1; }
             .feat-grid { grid-template-columns:1fr; }
             .stats-grid { grid-template-columns:1fr; }
             .email-form { flex-direction:column; }
@@ -1033,9 +1061,16 @@
             so you evaluate faster, decide smarter, and scale with confidence.
         </p>
         <div class="hero-actions">
-            <a href="#waitlist">
-                <button class="btn-primary">Get Early Access</button>
-            </a>
+            <div class="cta-group">
+                <a href="#waitlist">
+                    <button class="btn-primary">Get Early Access</button>
+                </a>
+                <a href="benchmarks.html"
+                   class="cta-secondary"
+                   aria-label="View free SaaS KPI benchmarks">
+                  View Free Benchmarks &rarr;
+                </a>
+            </div>
             <a href="#how-it-works">
                 <button class="btn-ghost">See How It Works →</button>
             </a>
@@ -1186,20 +1221,20 @@
     <div class="wrap">
         <div class="stats-grid reveal">
             <div class="stat-item">
-                <div class="stat-val">10K+</div>
-                <div class="stat-lbl">SaaS Tools Tracked</div>
+                <div class="stat-val">40+</div>
+                <div class="stat-lbl">Data Sources Wired</div>
             </div>
             <div class="stat-item">
-                <div class="stat-val">500+</div>
-                <div class="stat-lbl">Data Sources Monitored</div>
+                <div class="stat-val">6</div>
+                <div class="stat-lbl">KPI Categories Tracked</div>
             </div>
             <div class="stat-item">
                 <div class="stat-val">24/7</div>
                 <div class="stat-lbl">Automated Intelligence</div>
             </div>
             <div class="stat-item">
-                <div class="stat-val">95%</div>
-                <div class="stat-lbl">Pipeline Automation</div>
+                <div class="stat-val">Top 300</div>
+                <div class="stat-lbl">India Builder · VibeCon 2025</div>
             </div>
         </div>
     </div>
