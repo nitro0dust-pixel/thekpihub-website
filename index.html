@@ -37,6 +37,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Syne:wght@400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
 
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
     <style>
         /* =============================================
            VARIABLES
@@ -808,6 +811,25 @@
             .cookie-actions { width: 100%; }
             .cookie-btn { flex: 1; text-align: center; }
         }
+
+        /* =============================================
+           CREDIBILITY BAR
+        ============================================= */
+        .credibility-bar{width:100%;padding:10px 24px;
+          background:transparent;
+          border-bottom:1px solid rgba(233,161,35,0.2);
+          text-align:center;}
+        .credibility-inner{display:flex;align-items:center;
+          justify-content:center;gap:12px;
+          max-width:900px;margin:0 auto;}
+        .credibility-bar p{font-family:'DM Sans',sans-serif;
+          font-size:12px;letter-spacing:0.08em;
+          color:#E9A123;text-transform:uppercase;
+          margin:0;opacity:0.9;}
+        .credibility-dot{width:4px;height:4px;border-radius:50%;
+          background:#E9A123;opacity:0.5;flex-shrink:0;}
+        @media(max-width:480px){
+          .credibility-bar p{font-size:10px;letter-spacing:0.04em;}}
     </style>
 <script type="application/ld+json">
 {
@@ -861,23 +883,26 @@
         The <span class="logo-accent">KPI</span> Hub
     </div>
     <ul class="nav-links">
-                    <li><a href="#intelligence">Intelligence</a></li>
-            <li><a href="#how-it-works">How It Works</a></li>
-            <li><a href="#features">Features</a></li>
-            
-            <li><a href="narrative.html">KPI Narrative</a></li>
-            <li><a href="freedom.html">Freedom Dashboard</a></li>
-            <li><a href="india-benchmarks.html">India Benchmarks</a></li>
-            <li><a href="today.html">Daily Directive</a></li>
-            <li><a href="stack-scorer.html">Stack Scorer</a></li>
-            <li><a href="auditor.html">KPI Auditor</a></li>
-            <li><a href="validator.html">Idea Validator</a></li>
-            <li><a href="cohort.html">Cohort</a></li>
-
-
+        <li><a href="#intelligence">Intelligence</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="#waitlist">Early Access</a></li>
     </ul>
     <a href="#waitlist"><button class="nav-btn">Get Early Access</button></a>
 </nav>
+
+<div class="credibility-bar" role="banner"
+     aria-label="Builder Recognition">
+  <div class="credibility-inner">
+    <span class="credibility-dot"></span>
+    <p>Selected &mdash; India&rsquo;s Top 300 Builders
+       &nbsp;&middot;&nbsp; VibeCon 2025 &nbsp;&middot;&nbsp;
+       YC &times; Anthropic &times; Lightspeed &times; Razorpay
+    </p>
+    <span class="credibility-dot"></span>
+  </div>
+</div>
 
 <!-- Full-Screen Overlay Navigation (Kuemmerlein-inspired) -->
 <div class="nav-overlay" id="navOverlay" role="dialog" aria-label="Navigation menu" aria-hidden="true">
@@ -975,7 +1000,7 @@
         </p>
         <div class="hero-actions">
             <a href="#waitlist">
-                <button class="btn-primary">🚀 Get Early Access</button>
+                <button class="btn-primary">Get Early Access</button>
             </a>
             <a href="#how-it-works">
                 <button class="btn-ghost">See How It Works →</button>
@@ -1029,17 +1054,17 @@
         </div>
         <div class="v-grid">
             <div class="v-item reveal">
-                <div class="v-icon">🧠</div>
+                <div class="v-icon"><i data-lucide="brain" aria-label="AI-Synthesized Insights" style="width:28px;height:28px;stroke:#E9A123;stroke-width:1.5;display:block;margin:0 auto 16px auto;fill:none;"></i></div>
                 <h3 class="v-title">AI-Synthesized Insights</h3>
                 <p class="v-text">Our Claude-powered engine scans thousands of SaaS data sources daily, distilling the signal from the noise into clear, actionable intelligence. No manual curation needed.</p>
             </div>
             <div class="v-item reveal" style="transition-delay:0.15s">
-                <div class="v-icon">🎯</div>
+                <div class="v-icon"><i data-lucide="target" aria-label="Precision SaaS Matching" style="width:28px;height:28px;stroke:#E9A123;stroke-width:1.5;display:block;margin:0 auto 16px auto;fill:none;"></i></div>
                 <h3 class="v-title">Precision SaaS Matching</h3>
                 <p class="v-text">Stop guessing which tools fit your stack. Our matching engine evaluates 200+ criteria to surface exactly the SaaS solutions built for your specific business context.</p>
             </div>
             <div class="v-item reveal" style="transition-delay:0.3s">
-                <div class="v-icon">⚡</div>
+                <div class="v-icon"><i data-lucide="zap" aria-label="Real-Time Benchmarks" style="width:28px;height:28px;stroke:#E9A123;stroke-width:1.5;display:block;margin:0 auto 16px auto;fill:none;"></i></div>
                 <h3 class="v-title">Real-Time Benchmarks</h3>
                 <p class="v-text">Know exactly where you stand. Track industry KPIs, compare against peer cohorts, and get alerted when benchmark shifts create competitive opportunities.</p>
             </div>
@@ -1089,32 +1114,32 @@
         </div>
         <div class="feat-grid">
             <div class="feat-card reveal">
-                <div class="feat-icon">📊</div>
+                <div class="feat-icon"><i data-lucide="bar-chart-2" aria-label="KPI Intelligence Feed" style="width:28px;height:28px;stroke:#E9A123;stroke-width:1.5;display:block;margin:0 auto 16px auto;fill:none;"></i></div>
                 <h3 class="feat-title">KPI Intelligence Feed</h3>
                 <p class="feat-text">Daily AI-curated briefings on the metrics that matter most in your SaaS vertical. Always fresh, always verified, always relevant to your context.</p>
             </div>
             <div class="feat-card reveal" style="transition-delay:0.1s">
-                <div class="feat-icon">🔍</div>
+                <div class="feat-icon"><i data-lucide="search" aria-label="SaaS Discovery Engine" style="width:28px;height:28px;stroke:#E9A123;stroke-width:1.5;display:block;margin:0 auto 16px auto;fill:none;"></i></div>
                 <h3 class="feat-title">SaaS Discovery Engine</h3>
                 <p class="feat-text">Search and evaluate SaaS tools with AI-powered context. See real usage patterns, integration strengths, and competitive gaps at a glance.</p>
             </div>
             <div class="feat-card reveal" style="transition-delay:0.2s">
-                <div class="feat-icon">📈</div>
+                <div class="feat-icon"><i data-lucide="trending-up" aria-label="Benchmark Tracker" style="width:28px;height:28px;stroke:#E9A123;stroke-width:1.5;display:block;margin:0 auto 16px auto;fill:none;"></i></div>
                 <h3 class="feat-title">Benchmark Tracker</h3>
                 <p class="feat-text">Compare your metrics against industry standards and peer cohorts. Know where you're leading and where you're leaving money on the table.</p>
             </div>
             <div class="feat-card reveal" style="transition-delay:0.1s">
-                <div class="feat-icon">🤖</div>
+                <div class="feat-icon"><i data-lucide="bot" aria-label="AI Research Assistant" style="width:28px;height:28px;stroke:#E9A123;stroke-width:1.5;display:block;margin:0 auto 16px auto;fill:none;"></i></div>
                 <h3 class="feat-title">AI Research Assistant</h3>
                 <p class="feat-text">Ask any question about SaaS tools, vendors, or KPIs and get a verified, sourced answer in seconds — not hours of Googling across 40 tabs.</p>
             </div>
             <div class="feat-card reveal" style="transition-delay:0.2s">
-                <div class="feat-icon">🔔</div>
+                <div class="feat-icon"><i data-lucide="bell" aria-label="Smart Alert System" style="width:28px;height:28px;stroke:#E9A123;stroke-width:1.5;display:block;margin:0 auto 16px auto;fill:none;"></i></div>
                 <h3 class="feat-title">Smart Alert System</h3>
                 <p class="feat-text">Set intelligent alerts on market moves, pricing changes, competitor activity, or KPI shifts that actually affect your business decisions.</p>
             </div>
             <div class="feat-card reveal" style="transition-delay:0.3s">
-                <div class="feat-icon">💡</div>
+                <div class="feat-icon"><i data-lucide="lightbulb" aria-label="Decision Reports" style="width:28px;height:28px;stroke:#E9A123;stroke-width:1.5;display:block;margin:0 auto 16px auto;fill:none;"></i></div>
                 <h3 class="feat-title">Decision Reports</h3>
                 <p class="feat-text">Auto-generated evaluation reports for any SaaS tool you're considering. All the research done. All the questions answered. Zero fluff.</p>
             </div>
@@ -1353,6 +1378,9 @@
             ? '0 8px 40px rgba(0,0,0,0.4)'
             : 'none';
     });
+
+    /* --- Initialize Lucide Icons --- */
+    lucide.createIcons();
 </script>
 
 </body>
