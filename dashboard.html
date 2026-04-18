@@ -8,7 +8,7 @@
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%230A0F1E'/><text x='16' y='22' font-family='sans-serif' font-weight='800' font-size='18' fill='%230D9488' text-anchor='middle'>K</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #0A0F1E;
@@ -40,6 +40,10 @@
             background: var(--bg);
             color: var(--white);
             font-family: 'DM Sans', sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
             min-height: 100vh;
         }
 
@@ -61,11 +65,12 @@
 
         .logo {
             font-family: 'Syne', sans-serif;
-            font-size: 1.25rem;
+            font-size: 1.35rem;
             font-weight: 800;
+            letter-spacing: -0.01em;
             display: flex;
             align-items: center;
-            gap: 9px;
+            gap: 10px;
         }
 
         .logo-accent {
@@ -79,7 +84,8 @@
         }
 
         .user-badge {
-            font-size: 0.85rem;
+            font-size: 0.875rem;
+            line-height: 1;
             color: var(--gray);
         }
 
@@ -113,95 +119,106 @@
         /* Header stats */
         .header-stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 12px;
-            margin-bottom: 24px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 14px;
+            margin-bottom: 28px;
+            margin-top: 28px;
         }
 
         .stat-card {
             background: var(--bgCard);
             border: 1px solid var(--border);
             border-radius: 14px;
-            padding: 18px 20px;
+            padding: 20px 22px;
             position: relative;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 16px;
         }
 
-        .stat-card.accent-teal {
-            border-left: 3px solid var(--teal);
-        }
-
-        .stat-card.accent-green {
-            border-left: 3px solid var(--green);
-        }
-
-        .stat-card.accent-amber {
-            border-left: 3px solid var(--amber);
-        }
-
-        .stat-card.accent-red {
-            border-left: 3px solid var(--red);
-        }
+        .stat-card.accent-teal  { border-left: 3px solid var(--teal); }
+        .stat-card.accent-green { border-left: 3px solid var(--green); }
+        .stat-card.accent-amber { border-left: 3px solid var(--amber); }
+        .stat-card.accent-red   { border-left: 3px solid var(--red); }
 
         .stat-icon {
-            font-size: 20px;
-            margin-bottom: 4px;
+            font-size: 24px;
+            flex-shrink: 0;
+            width: 46px;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.05);
+            border-radius: 11px;
+            border: 1px solid rgba(255,255,255,0.07);
         }
+
+        .stat-body { flex: 1; min-width: 0; }
 
         .stat-value {
             font-family: 'Syne', sans-serif;
-            font-size: 26px;
+            font-size: clamp(24px, 3vw, 34px);
             font-weight: 800;
             line-height: 1;
+            letter-spacing: -0.01em;
             color: var(--white);
         }
 
         .stat-label {
-            font-size: 10px;
-            font-weight: 700;
-            color: var(--grayLt);
-            letter-spacing: 0.06em;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--gray);
+            letter-spacing: 0.08em;
             text-transform: uppercase;
             margin-top: 6px;
+            line-height: 1.3;
         }
 
         /* Tabs */
         .tab-nav {
             display: flex;
-            gap: 3px;
-            margin-bottom: 16px;
+            gap: 2px;
+            margin-bottom: 0;
             border-bottom: 1px solid var(--border);
             overflow-x: auto;
+            scrollbar-width: none;
         }
+        .tab-nav::-webkit-scrollbar { display: none; }
 
         .tab-btn {
-            padding: 12px 18px;
-            border: 1px solid var(--border);
+            padding: 13px 20px;
+            border: 1px solid transparent;
             border-bottom: none;
+            border-radius: 9px 9px 0 0;
             background: transparent;
             color: var(--gray);
             cursor: pointer;
             font-family: 'Syne', sans-serif;
-            font-size: 0.75rem;
+            font-size: 0.78rem;
             font-weight: 700;
-            letter-spacing: 0.04em;
+            letter-spacing: 0.05em;
             text-transform: uppercase;
+            line-height: 1;
             white-space: nowrap;
-            transition: all 0.2s;
+            flex-shrink: 0;
+            transition: color 0.2s, background 0.2s;
         }
 
         .tab-btn.active {
             background: var(--bgCard);
             color: var(--white);
-            border-color: var(--bgCard);
+            border-color: var(--border);
             border-bottom: 2px solid var(--teal);
             position: relative;
             z-index: 2;
             margin-bottom: -1px;
         }
 
-        .tab-btn:hover {
-            color: var(--white);
+        .tab-btn:hover:not(.active) {
+            color: var(--grayLt);
+            background: rgba(255,255,255,0.03);
         }
 
         /* Tab content */
@@ -209,8 +226,8 @@
             display: none;
             background: var(--bgCard);
             border: 1px solid var(--border);
-            border-radius: 0 14px 14px 14px;
-            padding: 24px 20px;
+            border-radius: 0 12px 12px 12px;
+            padding: 28px 24px;
             max-height: calc(100vh - 250px);
             overflow-y: auto;
         }
@@ -268,7 +285,8 @@
         .task-title {
             font-family: 'Syne', sans-serif;
             font-weight: 700;
-            font-size: 13px;
+            font-size: 0.875rem;
+            line-height: 1.4;
             margin-bottom: 4px;
             color: var(--white);
         }
@@ -279,27 +297,28 @@
         }
 
         .task-detail {
-            font-size: 11px;
+            font-size: 0.8rem;
             color: var(--gray);
-            line-height: 1.5;
+            line-height: 1.55;
         }
 
         .task-meta {
             display: flex;
             gap: 6px;
             flex-wrap: wrap;
-            font-size: 9px;
+            font-size: 0.68rem;
             color: var(--gray);
-            margin-top: 2px;
+            margin-top: 5px;
         }
 
         .badge {
             display: inline-block;
-            padding: 2px 8px;
-            border-radius: 4px;
+            padding: 3px 9px;
+            border-radius: 5px;
             border: 1px solid rgba(255,255,255,0.1);
-            font-size: 9px;
+            font-size: 0.68rem;
             font-weight: 600;
+            line-height: 1.5;
             white-space: nowrap;
         }
 
@@ -323,7 +342,8 @@
 
         .task-weeks {
             margin-left: auto;
-            font-size: 10px;
+            font-size: 0.72rem;
+            line-height: 1;
             color: var(--gray);
             flex-shrink: 0;
         }
@@ -381,17 +401,18 @@
         .milestone-title {
             font-family: 'Syne', sans-serif;
             font-weight: 700;
-            font-size: 12px;
-            margin-bottom: 3px;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            margin-bottom: 4px;
             display: flex;
             align-items: center;
             gap: 6px;
         }
 
         .milestone-detail {
-            font-size: 10px;
+            font-size: 0.775rem;
             color: var(--gray);
-            line-height: 1.5;
+            line-height: 1.55;
         }
 
         .success-check {
@@ -442,7 +463,8 @@
         .stream-name {
             font-family: 'Syne', sans-serif;
             font-weight: 800;
-            font-size: 13px;
+            font-size: 0.925rem;
+            line-height: 1.35;
             margin-bottom: 5px;
         }
 
@@ -455,16 +477,17 @@
         .stream-potential {
             font-family: 'Syne', sans-serif;
             font-weight: 800;
-            font-size: 13px;
+            font-size: 0.925rem;
+            line-height: 1.3;
             color: var(--teal);
             text-align: right;
             flex-shrink: 0;
         }
 
         .stream-detail {
-            font-size: 11px;
+            font-size: 0.8rem;
             color: var(--gray);
-            line-height: 1.5;
+            line-height: 1.6;
             margin-bottom: 12px;
         }
 
@@ -515,26 +538,18 @@
 
         /* Responsive */
         @media (max-width: 768px) {
-            .topbar {
-                padding: 12px 16px;
-            }
+            .topbar { padding: 12px 16px; }
+            .container { margin-top: 64px; padding: 0 14px 40px; }
+            .header-stats { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .stat-value { font-size: clamp(20px, 5vw, 28px); }
+            .tab-btn { padding: 11px 14px; font-size: 0.72rem; }
+            .tab-content { padding: 20px 16px; }
+            .milestone-grid, .stream-grid { grid-template-columns: 1fr; }
+        }
 
-            .container {
-                margin-top: 60px;
-            }
-
-            .header-stats {
-                grid-template-columns: 1fr;
-            }
-
-            .tab-nav {
-                flex-wrap: wrap;
-            }
-
-            .milestone-grid,
-            .stream-grid {
-                grid-template-columns: 1fr;
-            }
+        @media (max-width: 480px) {
+            .header-stats { grid-template-columns: 1fr; }
+            .logo-accent { display: none; }
         }
 
         ::-webkit-scrollbar {
@@ -573,28 +588,28 @@
     <div class="header-stats">
         <div class="stat-card accent-teal">
             <div class="stat-icon">📋</div>
-            <div>
+            <div class="stat-body">
                 <div class="stat-value">22</div>
                 <div class="stat-label">Total Tasks</div>
             </div>
         </div>
         <div class="stat-card accent-green">
             <div class="stat-icon">✅</div>
-            <div>
+            <div class="stat-body">
                 <div class="stat-value" id="doneCount">0</div>
                 <div class="stat-label">Completed</div>
             </div>
         </div>
         <div class="stat-card accent-amber">
             <div class="stat-icon">⚡</div>
-            <div>
+            <div class="stat-body">
                 <div class="stat-value" id="inProgressCount">0</div>
                 <div class="stat-label">In Progress</div>
             </div>
         </div>
         <div class="stat-card accent-red">
             <div class="stat-icon">🎯</div>
-            <div>
+            <div class="stat-body">
                 <div class="stat-value" id="remainingCount">22</div>
                 <div class="stat-label">Remaining</div>
             </div>
@@ -828,10 +843,10 @@ function renderCommandCenter() {
 // ============ RENDER ACHIEVED ============
 function renderAchieved() {
     const html = `
-        <div style="margin-bottom: 20px; padding: 20px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 14px;">
-            <div style="font-family: Syne; font-size: 48px; font-weight: 800; color: #10B981; margin-bottom: 8px;">22</div>
-            <div style="font-family: Syne; font-size: 18px; font-weight: 800; margin-bottom: 4px;">Milestones Verified Live</div>
-            <div style="color: #94A3B8; font-size: 12px;">Full audit confirmed · thekpihub.com is LIVE 🚀</div>
+        <div style="margin-bottom: 24px; padding: 24px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 14px;">
+            <div style="font-family: 'Syne', sans-serif; font-size: clamp(40px, 6vw, 56px); font-weight: 800; color: #10B981; line-height: 1; margin-bottom: 10px;">22</div>
+            <div style="font-family: 'Syne', sans-serif; font-size: 1.15rem; font-weight: 800; line-height: 1.3; margin-bottom: 6px;">Milestones Verified Live</div>
+            <div style="color: #94A3B8; font-size: 0.825rem; line-height: 1.5;">Full audit confirmed · thekpihub.com is LIVE 🚀</div>
         </div>
         <div class="milestone-grid">
             ${MILESTONES.map(m => `
@@ -928,32 +943,32 @@ function renderTimeline() {
             </div>
 
             <div style="background: var(--bgMid); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px;">
-                <div style="font-family: Syne; font-weight: 800; font-size: 13px; margin-bottom: 16px;">📈 Revenue Milestones</div>
+                <div style="font-family: 'Syne', sans-serif; font-weight: 800; font-size: 0.95rem; letter-spacing: -0.005em; margin-bottom: 18px;">📈 Revenue Milestones</div>
                 <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px;">
-                    <div style="background: var(--bgCard); border: 1px solid var(--border); border-radius: 10px; padding: 12px; text-align: center;">
-                        <div style="font-family: Syne; font-weight: 800; font-size: 18px; color: #F59E0B;">₹30K</div>
-                        <div style="font-size: 10px; color: var(--gray); margin-top: 6px;">Phase 1</div>
+                    <div style="background: var(--bgCard); border: 1px solid var(--border); border-radius: 10px; padding: 14px 12px; text-align: center;">
+                        <div style="font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.15rem; line-height: 1; color: #F59E0B;">₹30K</div>
+                        <div style="font-size: 0.7rem; color: var(--gray); margin-top: 7px; letter-spacing: 0.05em; text-transform: uppercase;">Phase 1</div>
                     </div>
-                    <div style="background: var(--bgCard); border: 1px solid var(--border); border-radius: 10px; padding: 12px; text-align: center;">
-                        <div style="font-family: Syne; font-weight: 800; font-size: 18px; color: #14B8A6;">₹75K</div>
-                        <div style="font-size: 10px; color: var(--gray); margin-top: 6px;">M6</div>
+                    <div style="background: var(--bgCard); border: 1px solid var(--border); border-radius: 10px; padding: 14px 12px; text-align: center;">
+                        <div style="font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.15rem; line-height: 1; color: #14B8A6;">₹75K</div>
+                        <div style="font-size: 0.7rem; color: var(--gray); margin-top: 7px; letter-spacing: 0.05em; text-transform: uppercase;">M6</div>
                     </div>
-                    <div style="background: var(--bgCard); border: 1px solid var(--border); border-radius: 10px; padding: 12px; text-align: center;">
-                        <div style="font-family: Syne; font-weight: 800; font-size: 18px; color: #14B8A6;">₹1.2L</div>
-                        <div style="font-size: 10px; color: var(--gray); margin-top: 6px;">M8</div>
+                    <div style="background: var(--bgCard); border: 1px solid var(--border); border-radius: 10px; padding: 14px 12px; text-align: center;">
+                        <div style="font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.15rem; line-height: 1; color: #14B8A6;">₹1.2L</div>
+                        <div style="font-size: 0.7rem; color: var(--gray); margin-top: 7px; letter-spacing: 0.05em; text-transform: uppercase;">M8</div>
                     </div>
-                    <div style="background: var(--bgCard); border: 1px solid var(--border); border-radius: 10px; padding: 12px; text-align: center;">
-                        <div style="font-family: Syne; font-weight: 800; font-size: 18px; color: #14B8A6;">₹2.5L</div>
-                        <div style="font-size: 10px; color: var(--gray); margin-top: 6px;">M12</div>
+                    <div style="background: var(--bgCard); border: 1px solid var(--border); border-radius: 10px; padding: 14px 12px; text-align: center;">
+                        <div style="font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.15rem; line-height: 1; color: #14B8A6;">₹2.5L</div>
+                        <div style="font-size: 0.7rem; color: var(--gray); margin-top: 7px; letter-spacing: 0.05em; text-transform: uppercase;">M12</div>
                     </div>
-                    <div style="background: var(--bgCard); border: 2px solid #F59E0B; border-radius: 10px; padding: 12px; text-align: center;">
-                        <div style="font-family: Syne; font-weight: 800; font-size: 18px; color: #F59E0B;">₹5.5L+</div>
-                        <div style="font-size: 10px; color: var(--gray); margin-top: 6px;">Freedom!</div>
+                    <div style="background: var(--bgCard); border: 2px solid #F59E0B; border-radius: 10px; padding: 14px 12px; text-align: center;">
+                        <div style="font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.15rem; line-height: 1; color: #F59E0B;">₹5.5L+</div>
+                        <div style="font-size: 0.7rem; color: var(--gray); margin-top: 7px; letter-spacing: 0.05em; text-transform: uppercase;">Freedom!</div>
                     </div>
                 </div>
             </div>
 
-            <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 9px; padding: 14px 16px; color: #F59E0B; font-size: 12px;">
+            <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 9px; padding: 14px 18px; color: #F59E0B; font-size: 0.825rem; line-height: 1.55;">
                 💡 <strong>Strategy:</strong> Phase 1 focus on affiliate + tool pages. Phase 2 content engine + email. Phase 3 SaaS launch + API + enterprise.
             </div>
         </div>
@@ -965,14 +980,14 @@ function renderTimeline() {
 function renderPages() {
     const html = `
         <div style="overflow-x: auto;">
-            <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 0.825rem;">
                 <thead>
                     <tr style="border-bottom: 1px solid var(--border); background: rgba(13, 148, 136, 0.1);">
-                        <th style="padding: 10px; text-align: left; color: #14B8A6; font-family: Syne; font-weight: 700;">#</th>
-                        <th style="padding: 10px; text-align: left; color: #14B8A6; font-family: Syne; font-weight: 700;">Page</th>
-                        <th style="padding: 10px; text-align: left; color: #14B8A6; font-family: Syne; font-weight: 700;">Route</th>
-                        <th style="padding: 10px; text-align: left; color: #14B8A6; font-family: Syne; font-weight: 700;">Status</th>
-                        <th style="padding: 10px; text-align: left; color: #14B8A6; font-family: Syne; font-weight: 700;">CTA</th>
+                        <th style="padding: 11px 12px; text-align: left; color: #14B8A6; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase;">#</th>
+                        <th style="padding: 11px 12px; text-align: left; color: #14B8A6; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase;">Page</th>
+                        <th style="padding: 11px 12px; text-align: left; color: #14B8A6; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase;">Route</th>
+                        <th style="padding: 11px 12px; text-align: left; color: #14B8A6; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase;">Status</th>
+                        <th style="padding: 11px 12px; text-align: left; color: #14B8A6; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase;">CTA</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -1001,39 +1016,39 @@ function renderPipeline() {
     const container = document.getElementById('pipelineContent');
 
     container.innerHTML = `
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:20px;">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:24px;">
             <div class="stat-card accent-teal">
                 <div class="stat-icon">🤖</div>
-                <div><div class="stat-value" id="pipeSuccessRate">—</div><div class="stat-label">Success Rate</div></div>
+                <div class="stat-body"><div class="stat-value" id="pipeSuccessRate">—</div><div class="stat-label">Success Rate</div></div>
             </div>
             <div class="stat-card accent-green">
                 <div class="stat-icon">📰</div>
-                <div><div class="stat-value" id="pipeArticlesWeek">—</div><div class="stat-label">Articles This Week</div></div>
+                <div class="stat-body"><div class="stat-value" id="pipeArticlesWeek">—</div><div class="stat-label">Articles This Week</div></div>
             </div>
             <div class="stat-card accent-amber">
                 <div class="stat-icon">🔁</div>
-                <div><div class="stat-value" id="pipeTotalRuns">—</div><div class="stat-label">Total Runs</div></div>
+                <div class="stat-body"><div class="stat-value" id="pipeTotalRuns">—</div><div class="stat-label">Total Runs</div></div>
             </div>
             <div class="stat-card accent-red">
                 <div class="stat-icon">⏰</div>
-                <div><div class="stat-value" id="pipeLastRun" style="font-size:14px;">—</div><div class="stat-label">Last Run</div></div>
+                <div class="stat-body"><div class="stat-value" id="pipeLastRun" style="font-size:clamp(15px,2vw,20px);">—</div><div class="stat-label">Last Run</div></div>
             </div>
         </div>
 
-        <div style="background:var(--bgMid);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:16px;">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-                <div style="font-family:Syne;font-weight:800;font-size:13px;">Recent Pipeline Runs</div>
+        <div style="background:var(--bgMid);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+                <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:0.95rem;letter-spacing:-0.005em;">Recent Pipeline Runs</div>
                 <a href="${WORKFLOW_URL}" target="_blank" rel="noopener"
-                   style="font-family:Syne;font-size:11px;font-weight:700;color:var(--teal);text-decoration:none;border:1px solid rgba(13,148,136,0.4);padding:4px 12px;border-radius:6px;">
+                   style="font-family:'Syne',sans-serif;font-size:0.72rem;font-weight:700;color:var(--teal);text-decoration:none;border:1px solid rgba(13,148,136,0.4);padding:6px 14px;border-radius:6px;line-height:1;">
                    Open GitHub Actions ↗
                 </a>
             </div>
-            <div id="pipeRunsList"><div class="loading"><div class="spinner"></div><p style="margin-top:8px;font-size:12px;">Fetching pipeline data…</p></div></div>
+            <div id="pipeRunsList"><div class="loading"><div class="spinner"></div><p style="margin-top:10px;font-size:0.825rem;">Fetching pipeline data…</p></div></div>
         </div>
 
-        <div style="background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.2);border-radius:9px;padding:12px 16px;font-size:11px;color:var(--amber);">
+        <div style="background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.2);border-radius:9px;padding:14px 18px;font-size:0.8rem;line-height:1.5;color:var(--amber);">
             🔔 <strong>Schedule:</strong> 4×/day (01:00 · 07:00 · 13:00 · 19:00 UTC) — 5 AI engines → 3 articles/run → saved to artifacts
-            &nbsp;·&nbsp; <a href="${WORKFLOW_URL}" target="_blank" rel="noopener" style="color:var(--amber);">Monitor live ↗</a>
+            &nbsp;·&nbsp; <a href="${WORKFLOW_URL}" target="_blank" rel="noopener" style="color:var(--amber);font-weight:600;">Monitor live ↗</a>
         </div>
     `;
 
@@ -1064,7 +1079,7 @@ function renderPipeline() {
 
             if (runs.length === 0) {
                 document.getElementById('pipeRunsList').innerHTML =
-                    '<p style="font-size:12px;color:var(--gray);text-align:center;padding:20px;">No runs found. Check the repo name or make sure the workflow exists.</p>';
+                    '<p style="font-size:0.825rem;color:var(--gray);text-align:center;padding:24px;">No runs found yet — trigger a manual run from GitHub Actions.</p>';
                 return;
             }
 
@@ -1074,16 +1089,16 @@ function renderPipeline() {
                     ? Math.round((new Date(r.updated_at) - new Date(r.run_started_at)) / 60000)
                     : 0;
                 return `
-                    <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);">
-                        <span style="font-size:16px;width:20px;text-align:center;">${icons[status] || '❓'}</span>
+                    <div style="display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--border);">
+                        <span style="font-size:18px;width:22px;text-align:center;flex-shrink:0;">${icons[status] || '❓'}</span>
                         <div style="flex:1;min-width:0;">
-                            <div style="font-family:Syne;font-weight:700;font-size:12px;">Run #${r.run_number}</div>
-                            <div style="font-size:10px;color:var(--gray);">${new Date(r.created_at).toLocaleDateString('en-IN',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit',timeZone:'Asia/Kolkata'})}</div>
+                            <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.825rem;line-height:1.3;">Run #${r.run_number}</div>
+                            <div style="font-size:0.72rem;color:var(--gray);margin-top:2px;">${new Date(r.created_at).toLocaleDateString('en-IN',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit',timeZone:'Asia/Kolkata'})}</div>
                         </div>
-                        <span style="font-size:10px;font-weight:700;color:${colours[status] || '#94A3B8'};min-width:70px;text-align:right;">${status.toUpperCase()}</span>
-                        <span style="font-size:10px;color:var(--gray);min-width:50px;text-align:right;">${dur ? dur + 'm' : '—'}</span>
+                        <span style="font-size:0.72rem;font-weight:700;color:${colours[status] || '#94A3B8'};min-width:72px;text-align:right;">${status.toUpperCase()}</span>
+                        <span style="font-size:0.72rem;color:var(--gray);min-width:36px;text-align:right;">${dur ? dur + 'm' : '—'}</span>
                         <a href="${r.html_url}" target="_blank" rel="noopener"
-                           style="font-size:10px;color:var(--teal);text-decoration:none;font-weight:700;min-width:30px;text-align:right;">Log ↗</a>
+                           style="font-size:0.72rem;color:var(--teal);text-decoration:none;font-weight:700;">Log ↗</a>
                     </div>
                 `;
             }).join('');
