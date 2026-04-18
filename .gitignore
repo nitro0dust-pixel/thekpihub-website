@@ -5,6 +5,12 @@
 pipeline.log
 reports/
 
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+.npm
+
 # Python
 __pycache__/
 *.pyc

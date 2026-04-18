@@ -451,18 +451,36 @@
             if (digits.length < 6) { showMsg('error', '⚠ Please enter all 6 digits of your 2FA code.'); return; }
         }
 
-        /* Simulate authentication */
+        /* Client-side authentication (static hosting) */
         const btn = document.getElementById('submitBtn');
         btn.classList.add('loading');
         btn.disabled = true;
 
-        setTimeout(() => {
-            btn.classList.remove('loading');
-            btn.disabled = false;
-            /* Demo: show success — in production redirect to dashboard */
+        const ADMIN_EMAIL = 'admin@kpihub.com';
+        const ADMIN_HASH  = '7d31cd218582b3e58259243e322da33e84792ec2a265ac58b177bb9bea034fdc';
+
+        async function sha256(str) {
+            const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+            return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+        }
+
+        sha256(pwd.value).then(pwdHash => {
+            if (email.value !== ADMIN_EMAIL || pwdHash !== ADMIN_HASH) {
+                btn.classList.remove('loading');
+                btn.disabled = false;
+                showMsg('error', '⚠ Invalid email or password.');
+                return;
+            }
+
+            const expiry = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+            localStorage.setItem('authToken', 'session_' + Date.now());
+            localStorage.setItem('userEmail', email.value);
+            localStorage.setItem('userRole', 'admin');
+            localStorage.setItem('tokenExpiry', expiry);
+
             showMsg('success', '✓ Authentication successful. Loading your dashboard…');
-            btn.textContent = 'Redirecting…';
-        }, 1800);
+            setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
+        });
     });
 
     /* Live field validation on blur */
