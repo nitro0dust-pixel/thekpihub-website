@@ -85,8 +85,9 @@
         .eye-toggle:hover{color:var(--text2);}
 
         /* EMPLOYEE-ONLY FIELDS */
-        .emp-fields{display:none;}
-        .emp-fields.show{display:block;}
+        .emp-fields{display:none !important;}
+        .emp-fields.show{display:block !important;}
+        .emp-fields.show.form-row{display:grid !important;}
         .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
 
         /* SELECT */
