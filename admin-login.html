@@ -239,7 +239,7 @@
             <!-- Email -->
             <div class="form-group">
                 <label class="form-label" for="adminEmail">Work Email</label>
-                <input class="form-in" type="email" id="adminEmail" name="email" placeholder="you@thekpihub.com" autocomplete="email" required>
+                <input class="form-in" type="email" id="adminEmail" name="email" placeholder="admin@thekpihub.com" autocomplete="email" required>
             </div>
 
             <!-- Employee ID (employees only) -->
@@ -456,7 +456,7 @@
         btn.classList.add('loading');
         btn.disabled = true;
 
-        const ADMIN_EMAIL = 'admin@kpihub.com';
+        const ADMIN_EMAIL = 'admin@thekpihub.com';
         const ADMIN_HASH  = '7d31cd218582b3e58259243e322da33e84792ec2a265ac58b177bb9bea034fdc';
 
         async function sha256(str) {
