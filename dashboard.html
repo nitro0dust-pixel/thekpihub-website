@@ -759,14 +759,14 @@ function checkAuth() {
     const email = localStorage.getItem('userEmail');
 
     if (!token || !email) {
-        window.location.href = '/admin-login.html';
+        window.location.href = 'admin-login.html';
         return false;
     }
 
     // Check token expiry
     const expiry = localStorage.getItem('tokenExpiry');
     if (expiry && new Date(expiry) < new Date()) {
-        logout();
+        handleLogout();
         return false;
     }
 
