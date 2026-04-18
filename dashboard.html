@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Admin Dashboard — The KPI Hub. Project management and pipeline monitoring.">
+    <title>Admin Dashboard — The KPI Hub</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%230A0F1E'/><text x='16' y='22' font-family='sans-serif' font-weight='800' font-size='18' fill='%230D9488' text-anchor='middle'>K</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0A0F1E;
+            --bgMid: #111827;
+            --bgCard: #1A2235;
+            --bgCard2: #1F2D45;
+            --teal: #0D9488;
+            --tealLt: #14B8A6;
+            --amber: #F59E0B;
+            --amberLt: #FCD34D;
+            --green: #10B981;
+            --red: #EF4444;
+            --purple: #A855F7;
+            --pink: #EC4899;
+            --orange: #F97316;
+            --white: #F8FAFC;
+            --gray: #94A3B8;
+            --grayLt: #CBD5E1;
+            --border: #1E293B;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--white);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 16px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(10, 15, 30, 0.95);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(24px);
+        }
+
+        .logo {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.35rem;
+            font-weight: 800;
+            letter-spacing: -0.01em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-accent {
+            color: var(--teal);
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .user-badge {
+            font-size: 0.875rem;
+            line-height: 1;
+            color: var(--gray);
+        }
+
+        .logout-btn {
+            padding: 7px 16px;
+            background: var(--red);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Syne', sans-serif;
+            font-weight: 600;
+            font-size: 0.75rem;
+            transition: all 0.2s;
+        }
+
+        .logout-btn:hover {
+            background: #DC2626;
+            transform: translateY(-2px);
+        }
+
+        /* Main container */
+        .container {
+            margin-top: 70px;
+            max-width: 1320px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 20px 40px;
+        }
+
+        /* Header stats */
+        .header-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 14px;
+            margin-bottom: 28px;
+            margin-top: 28px;
+        }
+
+        .stat-card {
+            background: var(--bgCard);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 20px 22px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .stat-card.accent-teal  { border-left: 3px solid var(--teal); }
+        .stat-card.accent-green { border-left: 3px solid var(--green); }
+        .stat-card.accent-amber { border-left: 3px solid var(--amber); }
+        .stat-card.accent-red   { border-left: 3px solid var(--red); }
+
+        .stat-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+            width: 46px;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.05);
+            border-radius: 11px;
+            border: 1px solid rgba(255,255,255,0.07);
+        }
+
+        .stat-body { flex: 1; min-width: 0; }
+
+        .stat-value {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(24px, 3vw, 34px);
+            font-weight: 800;
+            line-height: 1;
+            letter-spacing: -0.01em;
+            color: var(--white);
+        }
+
+        .stat-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--gray);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-top: 6px;
+            line-height: 1.3;
+        }
+
+        /* Tabs */
+        .tab-nav {
+            display: flex;
+            gap: 2px;
+            margin-bottom: 0;
+            border-bottom: 1px solid var(--border);
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        .tab-nav::-webkit-scrollbar { display: none; }
+
+        .tab-btn {
+            padding: 13px 20px;
+            border: 1px solid transparent;
+            border-bottom: none;
+            border-radius: 9px 9px 0 0;
+            background: transparent;
+            color: var(--gray);
+            cursor: pointer;
+            font-family: 'Syne', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            line-height: 1;
+            white-space: nowrap;
+            flex-shrink: 0;
+            transition: color 0.2s, background 0.2s;
+        }
+
+        .tab-btn.active {
+            background: var(--bgCard);
+            color: var(--white);
+            border-color: var(--border);
+            border-bottom: 2px solid var(--teal);
+            position: relative;
+            z-index: 2;
+            margin-bottom: -1px;
+        }
+
+        .tab-btn:hover:not(.active) {
+            color: var(--grayLt);
+            background: rgba(255,255,255,0.03);
+        }
+
+        /* Tab content */
+        .tab-content {
+            display: none;
+            background: var(--bgCard);
+            border: 1px solid var(--border);
+            border-radius: 0 12px 12px 12px;
+            padding: 28px 24px;
+            max-height: calc(100vh - 250px);
+            overflow-y: auto;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Task list */
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .task-item {
+            background: var(--bgMid);
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .task-item:hover {
+            border-color: var(--teal);
+        }
+
+        .task-item.done {
+            opacity: 0.6;
+        }
+
+        .task-status {
+            font-size: 18px;
+            flex-shrink: 0;
+            width: 24px;
+            text-align: center;
+        }
+
+        .task-phase-bar {
+            width: 3px;
+            height: 32px;
+            border-radius: 99px;
+            flex-shrink: 0;
+        }
+
+        .task-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .task-title {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 0.875rem;
+            line-height: 1.4;
+            margin-bottom: 4px;
+            color: var(--white);
+        }
+
+        .task-item.done .task-title {
+            text-decoration: line-through;
+            color: var(--gray);
+        }
+
+        .task-detail {
+            font-size: 0.8rem;
+            color: var(--gray);
+            line-height: 1.55;
+        }
+
+        .task-meta {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            font-size: 0.68rem;
+            color: var(--gray);
+            margin-top: 5px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 9px;
+            border-radius: 5px;
+            border: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.68rem;
+            font-weight: 600;
+            line-height: 1.5;
+            white-space: nowrap;
+        }
+
+        .badge.phase {
+            background: rgba(13, 148, 136, 0.2);
+            border-color: rgba(13, 148, 136, 0.4);
+            color: var(--teal);
+        }
+
+        .badge.high {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: rgba(239, 68, 68, 0.4);
+            color: var(--red);
+        }
+
+        .badge.med {
+            background: rgba(245, 158, 11, 0.2);
+            border-color: rgba(245, 158, 11, 0.4);
+            color: var(--amber);
+        }
+
+        .task-weeks {
+            margin-left: auto;
+            font-size: 0.72rem;
+            line-height: 1;
+            color: var(--gray);
+            flex-shrink: 0;
+        }
+
+        /* Progress bar */
+        .progress {
+            height: 4px;
+            background: var(--border);
+            border-radius: 99px;
+            overflow: hidden;
+            margin-bottom: 6px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--teal);
+            transition: width 0.6s ease;
+            border-radius: 99px;
+        }
+
+        /* Grid layouts */
+        .milestone-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 12px;
+        }
+
+        .milestone-card {
+            background: var(--bgMid);
+            border: 1px solid rgba(13, 148, 136, 0.2);
+            border-radius: 12px;
+            padding: 14px 16px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .milestone-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 9px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            background: rgba(13, 148, 136, 0.15);
+            border: 1px solid rgba(13, 148, 136, 0.25);
+        }
+
+        .milestone-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .milestone-title {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .milestone-detail {
+            font-size: 0.775rem;
+            color: var(--gray);
+            line-height: 1.55;
+        }
+
+        .success-check {
+            color: var(--green);
+            font-size: 14px;
+        }
+
+        /* Stream cards */
+        .stream-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 12px;
+        }
+
+        .stream-card {
+            background: var(--bgMid);
+            border-radius: 15px;
+            border: 1px solid var(--border);
+            padding: 18px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stream-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .stream-icon {
+            width: 42px;
+            height: 42px;
+            flex-shrink: 0;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            background: rgba(13, 148, 136, 0.15);
+            border: 1px solid rgba(13, 148, 136, 0.25);
+        }
+
+        .stream-info {
+            flex: 1;
+        }
+
+        .stream-name {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 0.925rem;
+            line-height: 1.35;
+            margin-bottom: 5px;
+        }
+
+        .stream-badges {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .stream-potential {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 0.925rem;
+            line-height: 1.3;
+            color: var(--teal);
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        .stream-detail {
+            font-size: 0.8rem;
+            color: var(--gray);
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        /* Charts placeholder */
+        .chart-container {
+            background: var(--bgMid);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+        }
+
+        /* Loading and errors */
+        .loading {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray);
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(13, 148, 136, 0.3);
+            border-top-color: var(--teal);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .error-msg {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.25);
+            color: var(--red);
+            padding: 12px 16px;
+            border-radius: 9px;
+            font-size: 12px;
+            margin-bottom: 16px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .topbar { padding: 12px 16px; }
+            .container { margin-top: 64px; padding: 0 14px 40px; }
+            .header-stats { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .stat-value { font-size: clamp(20px, 5vw, 28px); }
+            .tab-btn { padding: 11px 14px; font-size: 0.72rem; }
+            .tab-content { padding: 20px 16px; }
+            .milestone-grid, .stream-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 480px) {
+            .header-stats { grid-template-columns: 1fr; }
+            .logo-accent { display: none; }
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Topbar -->
+<div class="topbar">
+    <div class="logo">
+        <span>The KPI Hub</span>
+        <span class="logo-accent">Dashboard</span>
+    </div>
+    <div class="topbar-right">
+        <div class="user-badge">
+            <span id="userEmail">admin@kpihub.com</span>
+        </div>
+        <button class="logout-btn" onclick="handleLogout()">Logout</button>
+    </div>
+</div>
+
+<!-- Main container -->
+<div class="container">
+    <!-- Header stats -->
+    <div class="header-stats">
+        <div class="stat-card accent-teal">
+            <div class="stat-icon">📋</div>
+            <div class="stat-body">
+                <div class="stat-value">22</div>
+                <div class="stat-label">Total Tasks</div>
+            </div>
+        </div>
+        <div class="stat-card accent-green">
+            <div class="stat-icon">✅</div>
+            <div class="stat-body">
+                <div class="stat-value" id="doneCount">0</div>
+                <div class="stat-label">Completed</div>
+            </div>
+        </div>
+        <div class="stat-card accent-amber">
+            <div class="stat-icon">⚡</div>
+            <div class="stat-body">
+                <div class="stat-value" id="inProgressCount">0</div>
+                <div class="stat-label">In Progress</div>
+            </div>
+        </div>
+        <div class="stat-card accent-red">
+            <div class="stat-icon">🎯</div>
+            <div class="stat-body">
+                <div class="stat-value" id="remainingCount">22</div>
+                <div class="stat-label">Remaining</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab navigation -->
+    <div class="tab-nav">
+        <button class="tab-btn active" data-tab="command-center">⌘ Command Center</button>
+        <button class="tab-btn" data-tab="pipeline">🤖 Pipeline</button>
+        <button class="tab-btn" data-tab="achieved">✅ Achieved</button>
+        <button class="tab-btn" data-tab="todo">🎯 To-Do List</button>
+        <button class="tab-btn" data-tab="timeline">📈 Timeline</button>
+        <button class="tab-btn" data-tab="pages">🗂️ Pages</button>
+        <button class="tab-btn" data-tab="revenue">💰 Revenue</button>
+    </div>
+
+    <!-- Command Center Tab -->
+    <div id="command-center" class="tab-content active">
+        <div class="task-list" id="commandCenterTasks"></div>
+    </div>
+
+    <!-- Pipeline Tab -->
+    <div id="pipeline" class="tab-content">
+        <div id="pipelineContent"></div>
+    </div>
+
+    <!-- Achieved Tab -->
+    <div id="achieved" class="tab-content">
+        <div id="achievedContent"></div>
+    </div>
+
+    <!-- To-Do List Tab -->
+    <div id="todo" class="tab-content">
+        <div id="todoContent"></div>
+    </div>
+
+    <!-- Timeline Tab -->
+    <div id="timeline" class="tab-content">
+        <div id="timelineContent"></div>
+    </div>
+
+    <!-- Pages Tab -->
+    <div id="pages" class="tab-content">
+        <div id="pagesContent"></div>
+    </div>
+
+    <!-- Revenue Tab -->
+    <div id="revenue" class="tab-content">
+        <div id="revenueContent"></div>
+    </div>
+</div>
+
+<script>
+// ============ DATA ============
+const MILESTONES = [
+    {id:1,  cat:"Infrastructure", icon:"🌐", title:"Custom Domain Live",          detail:"thekpihub.com resolving globally"},
+    {id:2,  cat:"Infrastructure", icon:"🔁", title:"CI/CD Pipeline",              detail:"GitHub auto-deploy webhook script"},
+    {id:3,  cat:"Infrastructure", icon:"🛡️", title:"Nginx Virtual Host",          detail:"Security headers + gzip + SSL-ready"},
+    {id:4,  cat:"Pages",          icon:"🏠", title:"Home / Index Page",            detail:"Route: /  ·  CTA: Start Tracking Free"},
+    {id:5,  cat:"Pages",          icon:"ℹ️", title:"About Page",                  detail:"Route: /about  ·  CTA: Our Story"},
+    {id:6,  cat:"Pages",          icon:"🧠", title:"Intelligence Page",            detail:"Route: /intelligence"},
+    {id:7,  cat:"Pages",          icon:"📚", title:"KPI Directory",                detail:"Route: /directory  ·  500+ KPIs"},
+    {id:8,  cat:"Pages",          icon:"💳", title:"Pricing Page",                 detail:"Route: /pricing"},
+    {id:9,  cat:"Pages",          icon:"📊", title:"Benchmarks Page",              detail:"Route: /benchmarks"},
+    {id:10, cat:"Pages",          icon:"📬", title:"Contact Page",                 detail:"Route: /contact"},
+    {id:11, cat:"Pages",          icon:"⚖️", title:"Legal Hub",                   detail:"Route: /legal"},
+    {id:12, cat:"Pages",          icon:"🔒", title:"Privacy Policy",               detail:"Route: /legal/privacy"},
+    {id:13, cat:"Pages",          icon:"📜", title:"Terms of Service",             detail:"Route: /legal/terms"},
+    {id:14, cat:"Pages",          icon:"🍪", title:"Cookie Policy",                detail:"Route: /legal/cookies"},
+    {id:15, cat:"Brand",          icon:"💬", title:"Tagline Locked",               detail:'"Know Your Numbers. Own Your Growth."'},
+    {id:16, cat:"Brand",          icon:"🎨", title:"Color Scheme",                 detail:"Dark navy + Amber/Orange CTAs"},
+    {id:17, cat:"Brand",          icon:"🖱️", title:"CTA Hierarchy",               detail:"Primary → Secondary → Waitlist"},
+    {id:18, cat:"Product",        icon:"🐍", title:"Python 5-Engine Pipeline",     detail:"pipeline.py · .env vars · Telegram Bot"},
+    {id:19, cat:"Product",        icon:"🤖", title:"AI Chatbot",                   detail:"Anthropic API (claude-sonnet)"},
+    {id:20, cat:"Product",        icon:"🍪", title:"Cookie Consent Banner",        detail:"Live on all pages — GDPR compliant"},
+    {id:21, cat:"Product",        icon:"⏳", title:"Waitlist Form",                detail:"Collecting leads — nurture flow next"},
+    {id:22, cat:"Business",       icon:"📋", title:"Business Plan + Revenue Docs", detail:"11-section plan · 6 streams · Tech stack"}
+];
+
+const INIT_TASKS = [
+    {id:1,  phase:1,title:"Backend API Setup",          priority:"HIGH",status:"todo",weeks:"Wk 1-2",detail:"Next.js API routes · Prisma → production DB"},
+    {id:2,  phase:1,title:"SEO Foundation",             priority:"HIGH",status:"todo",weeks:"Wk 1-2",detail:"Meta tags + OG images · Schema markup"},
+    {id:3,  phase:1,title:"Analytics Integration",      priority:"HIGH",status:"todo",weeks:"Wk 2",  detail:"GA4 + Hotjar · Conversion funnel tracking"},
+    {id:4,  phase:1,title:"HubSpot Affiliate",          priority:"HIGH",status:"todo",weeks:"Wk 2",  detail:"Apply + integrate links"},
+    {id:5,  phase:1,title:"Tool Pages (3–5)",           priority:"MED", status:"todo",weeks:"Wk 2-3",detail:"KPI Calculator · SEO landing pages"},
+    {id:6,  phase:1,title:"Email Collection Funnel",    priority:"MED", status:"todo",weeks:"Wk 3",  detail:"ConvertKit/Mailchimp · Lead magnet PDF"},
+    {id:7,  phase:1,title:"Performance Optimization",   priority:"MED", status:"todo",weeks:"Wk 3-4",detail:"Core Web Vitals · WebP images"},
+    {id:8,  phase:1,title:"Waitlist Nurture Flow",      priority:"MED", status:"todo",weeks:"Wk 4",  detail:"Activate email sequences"},
+    {id:9,  phase:2,title:"Content Engine",             priority:"HIGH",status:"todo",weeks:"M2",    detail:"50+ programmatic SEO posts"},
+    {id:10, phase:2,title:"Gated Content Library",      priority:"HIGH",status:"todo",weeks:"M2",    detail:"Industry KPI reports (PDF)"},
+    {id:11, phase:2,title:"KPI Benchmarks DB",          priority:"HIGH",status:"todo",weeks:"M2-3",  detail:"500+ company data · Filterable"},
+    {id:12, phase:2,title:"Email Marketing Engine",     priority:"HIGH",status:"todo",weeks:"M3",    detail:"Segmented lists · Behavioral automations"},
+    {id:13, phase:2,title:"Expand Affiliate Programme", priority:"MED", status:"todo",weeks:"M3",    detail:"Baremetrics · ChartMogul · Paddle"},
+    {id:14, phase:2,title:"Social Distribution",        priority:"MED", status:"todo",weeks:"M3",    detail:"LinkedIn threads · Twitter benchmarks"},
+    {id:15, phase:2,title:"Pro Tier Beta Testing",      priority:"MED", status:"todo",weeks:"M4",    detail:"Waitlist closed beta · NPS feedback"},
+    {id:16, phase:2,title:"Sponsored Content Program",  priority:"MED", status:"todo",weeks:"M4",    detail:"Media kit · Target SaaS tools"},
+    {id:17, phase:3,title:"Pro Subscription Launch",    priority:"HIGH",status:"todo",weeks:"M6",    detail:"₹999–₹2,999/mo · Goal: 100 users"},
+    {id:18, phase:3,title:"Public API Launch",          priority:"HIGH",status:"todo",weeks:"M8",    detail:"REST API · api.thekpihub.com docs"},
+    {id:19, phase:3,title:"Enterprise Licensing",       priority:"HIGH",status:"todo",weeks:"M9-12", detail:"White-label platform"},
+    {id:20, phase:3,title:"Benchmarks Data Moat",       priority:"HIGH",status:"todo",weeks:"M10",   detail:"Partner 100+ SaaS companies"},
+    {id:21, phase:3,title:"International Expansion",    priority:"MED", status:"todo",weeks:"M12-15",detail:"Multilingual EN/DE/ES"},
+    {id:22, phase:3,title:"Acquisition / Partnership",  priority:"MED", status:"todo",weeks:"M15-18",detail:"Investment round · Exit path"}
+];
+
+const STREAMS = [
+    {id:1,icon:"🔁",name:"Freemium → Pro Subscription",  phase:3,pot:"₹1L–₹3L/mo",   prog:15,status:"Building"},
+    {id:2,icon:"🤝",name:"Affiliate Marketing",           phase:1,pot:"₹15K–₹80K/mo",  prog:40,status:"Starting"},
+    {id:3,icon:"📢",name:"Sponsored Content",             phase:2,pot:"₹20K–₹80K/pc",  prog:5, status:"Planned"},
+    {id:4,icon:"🔌",name:"Public API Access",             phase:3,pot:"₹5K–₹50K/mo",   prog:10,status:"Planned"},
+    {id:5,icon:"📄",name:"Gated Reports & Exports",       phase:2,pot:"₹499–₹4,999/rpt",prog:10,status:"Planned"},
+    {id:6,icon:"🏢",name:"Enterprise Licensing",          phase:3,pot:"₹50K–₹2L/mo",   prog:5, status:"Planned"}
+];
+
+const PAGES = [
+    {n:"01",name:"Home",            route:"index.html",        status:"live",   cta:"Start Tracking Free"},
+    {n:"02",name:"About",           route:"about.html",        status:"live",   cta:"Our Story"},
+    {n:"03",name:"Intelligence",    route:"intelligence.html", status:"live",   cta:"Explore Intelligence"},
+    {n:"04",name:"KPI Directory",   route:"directory.html",    status:"live",   cta:"Browse KPIs"},
+    {n:"05",name:"Pricing",         route:"pricing.html",      status:"live",   cta:"Get Started Free"},
+    {n:"06",name:"Benchmarks",      route:"benchmarks.html",   status:"live",   cta:"View Benchmarks"},
+    {n:"07",name:"Contact",         route:"contact.html",      status:"live",   cta:"Send Message"},
+    {n:"08",name:"Privacy Policy",  route:"privacy.html",      status:"live",   cta:"—"},
+    {n:"09",name:"Terms of Service",route:"terms.html",        status:"live",   cta:"—"},
+    {n:"10",name:"Cookies Policy",  route:"cookies.html",      status:"live",   cta:"—"},
+    {n:"11",name:"Admin Portal",    route:"admin-login.html",  status:"live",   cta:"Staff Login"},
+    {n:"12",name:"Login",           route:"login.html",        status:"live",   cta:"Member Login"},
+    {n:"13",name:"Tool Pages",      route:"/tools/*",          status:"planned",cta:"Use Tool Free"},
+    {n:"14",name:"Blog",            route:"/blog",             status:"planned",cta:"Read More"}
+];
+
+const phaseColor = { 1:"#F59E0B", 2:"#14B8A6", 3:"#A855F7" };
+const catColor = { Infrastructure:"#0D9488", Pages:"#F59E0B", Brand:"#A855F7", Product:"#10B981", Business:"#F97316" };
+const priorityColor = { HIGH:"#EF4444", MED:"#F59E0B", LOW:"#94A3B8" };
+
+// ============ STATE ============
+let tasks = [...INIT_TASKS];
+let currentTab = 'command-center';
+
+// Load tasks from localStorage
+function loadTasks() {
+    const saved = localStorage.getItem('kpihub_tasks_v1');
+    if (saved) {
+        try {
+            tasks = JSON.parse(saved);
+        } catch (e) {
+            console.error('Failed to load tasks:', e);
+        }
+    }
+}
+
+function saveTasks() {
+    localStorage.setItem('kpihub_tasks_v1', JSON.stringify(tasks));
+    updateStats();
+    renderCommandCenter();
+    renderTodoList();
+}
+
+// ============ AUTH ============
+function checkAuth() {
+    const token = localStorage.getItem('authToken');
+    const email = localStorage.getItem('userEmail');
+
+    if (!token || !email) {
+        window.location.href = 'admin-login.html';
+        return false;
+    }
+
+    // Check token expiry
+    const expiry = localStorage.getItem('tokenExpiry');
+    if (expiry && new Date(expiry) < new Date()) {
+        handleLogout();
+        return false;
+    }
+
+    document.getElementById('userEmail').textContent = email;
+    return true;
+}
+
+function handleLogout() {
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('tokenExpiry');
+    window.location.href = 'admin-login.html';
+}
+
+// ============ UTILS ============
+function updateStats() {
+    const done = tasks.filter(t => t.status === 'done').length;
+    const inProg = tasks.filter(t => t.status === 'inprogress').length;
+    const remaining = 22 - done;
+
+    document.getElementById('doneCount').textContent = done;
+    document.getElementById('inProgressCount').textContent = inProg;
+    document.getElementById('remainingCount').textContent = remaining;
+}
+
+function toggleTask(id) {
+    const task = tasks.find(t => t.id === id);
+    if (task) {
+        const states = { todo: 'inprogress', inprogress: 'done', done: 'todo' };
+        task.status = states[task.status];
+        saveTasks();
+    }
+}
+
+const statusIcons = { todo: '○', inprogress: '◑', done: '●' };
+const statusColors = { todo: '#94A3B8', inprogress: '#F59E0B', done: '#10B981' };
+
+// ============ RENDER COMMAND CENTER ============
+function renderCommandCenter() {
+    const container = document.getElementById('commandCenterTasks');
+    container.innerHTML = tasks.map(t => `
+        <div class="task-item ${t.status === 'done' ? 'done' : ''}" onclick="toggleTask(${t.id})">
+            <div class="task-status" style="color: ${statusColors[t.status]}">${statusIcons[t.status]}</div>
+            <div class="task-phase-bar" style="background: ${phaseColor[t.phase]}"></div>
+            <div class="task-content">
+                <div class="task-title">${t.title}</div>
+                <div class="task-detail">${t.detail}</div>
+                <div class="task-meta">
+                    <span class="badge phase">P${t.phase}</span>
+                    <span class="badge ${t.priority === 'HIGH' ? 'high' : t.priority === 'MED' ? 'med' : 'low'}">${t.priority}</span>
+                </div>
+            </div>
+            <div class="task-weeks">${t.weeks}</div>
+        </div>
+    `).join('');
+}
+
+// ============ RENDER ACHIEVED ============
+function renderAchieved() {
+    const html = `
+        <div style="margin-bottom: 24px; padding: 24px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 14px;">
+            <div style="font-family: 'Syne', sans-serif; font-size: clamp(40px, 6vw, 56px); font-weight: 800; color: #10B981; line-height: 1; margin-bottom: 10px;">22</div>
+            <div style="font-family: 'Syne', sans-serif; font-size: 1.15rem; font-weight: 800; line-height: 1.3; margin-bottom: 6px;">Milestones Verified Live</div>
+            <div style="color: #94A3B8; font-size: 0.825rem; line-height: 1.5;">Full audit confirmed · thekpihub.com is LIVE 🚀</div>
+        </div>
+        <div class="milestone-grid">
+            ${MILESTONES.map(m => `
+                <div class="milestone-card">
+                    <div class="milestone-icon">${m.icon}</div>
+                    <div class="milestone-content">
+                        <div class="milestone-title">
+                            ${m.title}
+                            <span class="success-check">✅</span>
+                        </div>
+                        <div class="milestone-detail">${m.detail}</div>
+                    </div>
+                </div>
+            `).join('')}
+        </div>
+    `;
+    document.getElementById('achievedContent').innerHTML = html;
+}
+
+// ============ RENDER TODO LIST ============
+function renderTodoList() {
+    const html = [1, 2, 3].map(phase => {
+        const phaseT = tasks.filter(t => t.phase === phase);
+        const done = phaseT.filter(t => t.status === 'done').length;
+        const pct = Math.round(done / phaseT.length * 100);
+
+        return `
+            <div style="margin-bottom: 24px;">
+                <div style="background: var(--bgMid); border: 1px solid var(--border); border-radius: 12px; padding: 16px 20px; margin-bottom: 12px;">
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+                        <div style="width: 36px; height: 36px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-family: Syne; font-size: 16px; font-weight: 800; color: white; background: ${phaseColor[phase]}22;">P${phase}</div>
+                        <div style="flex: 1;">
+                            <div style="font-family: Syne; font-weight: 800; font-size: 16px; margin-bottom: 4px;">Phase ${phase}</div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <div style="flex: 1;">
+                                    <div class="progress">
+                                        <div class="progress-fill" style="width: ${pct}%; background: ${phaseColor[phase]}"></div>
+                                    </div>
+                                </div>
+                                <span style="font-size: 11px; font-weight: 700; color: ${phaseColor[phase]}; min-width: 30px;">${pct}%</span>
+                                <span style="font-size: 10px; color: var(--gray);">${done}/${phaseT.length}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 8px;">
+                    ${phaseT.map(t => `
+                        <div class="task-item ${t.status === 'done' ? 'done' : ''}" style="cursor: pointer; margin: 0;" onclick="toggleTask(${t.id})">
+                            <div class="task-status" style="color: ${statusColors[t.status]}">${statusIcons[t.status]}</div>
+                            <div style="flex: 1;">
+                                <div class="task-title">${t.title}</div>
+                                <div class="task-detail">${t.detail}</div>
+                                <div class="task-meta">
+                                    <span class="badge ${t.priority === 'HIGH' ? 'high' : t.priority === 'MED' ? 'med' : 'low'}">${t.priority}</span>
+                                    <span style="margin-left: auto; font-size: 9px; color: var(--gray);">${t.weeks}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    }).join('');
+
+    document.getElementById('todoContent').innerHTML = html;
+}
+
+// ============ RENDER TIMELINE ============
+function renderTimeline() {
+    const html = `
+        <div style="margin-bottom: 20px;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 20px;">
+                <div class="stat-card accent-amber">
+                    <div class="stat-icon">🎯</div>
+                    <div>
+                        <div class="stat-value">₹5L+</div>
+                        <div class="stat-label">Freedom Target</div>
+                    </div>
+                </div>
+                <div class="stat-card accent-teal">
+                    <div class="stat-icon">📅</div>
+                    <div>
+                        <div class="stat-value">18mo</div>
+                        <div class="stat-label">Timeline</div>
+                    </div>
+                </div>
+                <div class="stat-card accent-red">
+                    <div class="stat-icon">🚀</div>
+                    <div>
+                        <div class="stat-value">₹7L+</div>
+                        <div class="stat-label">Peak Potential</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: var(--bgMid); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px;">
+                <div style="font-family: 'Syne', sans-serif; font-weight: 800; font-size: 0.95rem; letter-spacing: -0.005em; margin-bottom: 18px;">📈 Revenue Milestones</div>
+                <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px;">
+                    <div style="background: var(--bgCard); border: 1px solid var(--border); border-radius: 10px; padding: 14px 12px; text-align: center;">
+                        <div style="font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.15rem; line-height: 1; color: #F59E0B;">₹30K</div>
+                        <div style="font-size: 0.7rem; color: var(--gray); margin-top: 7px; letter-spacing: 0.05em; text-transform: uppercase;">Phase 1</div>
+                    </div>
+                    <div style="background: var(--bgCard); border: 1px solid var(--border); border-radius: 10px; padding: 14px 12px; text-align: center;">
+                        <div style="font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.15rem; line-height: 1; color: #14B8A6;">₹75K</div>
+                        <div style="font-size: 0.7rem; color: var(--gray); margin-top: 7px; letter-spacing: 0.05em; text-transform: uppercase;">M6</div>
+                    </div>
+                    <div style="background: var(--bgCard); border: 1px solid var(--border); border-radius: 10px; padding: 14px 12px; text-align: center;">
+                        <div style="font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.15rem; line-height: 1; color: #14B8A6;">₹1.2L</div>
+                        <div style="font-size: 0.7rem; color: var(--gray); margin-top: 7px; letter-spacing: 0.05em; text-transform: uppercase;">M8</div>
+                    </div>
+                    <div style="background: var(--bgCard); border: 1px solid var(--border); border-radius: 10px; padding: 14px 12px; text-align: center;">
+                        <div style="font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.15rem; line-height: 1; color: #14B8A6;">₹2.5L</div>
+                        <div style="font-size: 0.7rem; color: var(--gray); margin-top: 7px; letter-spacing: 0.05em; text-transform: uppercase;">M12</div>
+                    </div>
+                    <div style="background: var(--bgCard); border: 2px solid #F59E0B; border-radius: 10px; padding: 14px 12px; text-align: center;">
+                        <div style="font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.15rem; line-height: 1; color: #F59E0B;">₹5.5L+</div>
+                        <div style="font-size: 0.7rem; color: var(--gray); margin-top: 7px; letter-spacing: 0.05em; text-transform: uppercase;">Freedom!</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 9px; padding: 14px 18px; color: #F59E0B; font-size: 0.825rem; line-height: 1.55;">
+                💡 <strong>Strategy:</strong> Phase 1 focus on affiliate + tool pages. Phase 2 content engine + email. Phase 3 SaaS launch + API + enterprise.
+            </div>
+        </div>
+    `;
+    document.getElementById('timelineContent').innerHTML = html;
+}
+
+// ============ RENDER PAGES ============
+function renderPages() {
+    const html = `
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 0.825rem;">
+                <thead>
+                    <tr style="border-bottom: 1px solid var(--border); background: rgba(13, 148, 136, 0.1);">
+                        <th style="padding: 11px 12px; text-align: left; color: #14B8A6; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase;">#</th>
+                        <th style="padding: 11px 12px; text-align: left; color: #14B8A6; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase;">Page</th>
+                        <th style="padding: 11px 12px; text-align: left; color: #14B8A6; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase;">Route</th>
+                        <th style="padding: 11px 12px; text-align: left; color: #14B8A6; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase;">Status</th>
+                        <th style="padding: 11px 12px; text-align: left; color: #14B8A6; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase;">CTA</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${PAGES.map((p, i) => `
+                        <tr style="border-bottom: 1px solid var(--border); background: ${i % 2 === 0 ? 'transparent' : 'var(--bgMid)'}; cursor: ${p.status === 'live' ? 'pointer' : 'default'};"
+                            onclick="${p.status === 'live' ? `window.open('https://thekpihub.com/${p.route}','_blank')` : ''}">
+                            <td style="padding: 10px; color: var(--gray);">${p.n}</td>
+                            <td style="padding: 10px; font-family: Syne; font-weight: 700;">${p.name}</td>
+                            <td style="padding: 10px; font-family: monospace; color: #14B8A6;">${p.route}</td>
+                            <td style="padding: 10px;"><span style="display: inline-block; padding: 2px 8px; border-radius: 4px; background: ${p.status === 'live' ? 'rgba(16, 185, 129, 0.2)' : 'rgba(245, 158, 11, 0.2)'}; color: ${p.status === 'live' ? '#10B981' : '#F59E0B'}; font-size: 9px; font-weight: 600;">${p.status === 'live' ? '✅ Live' : '⏳ Planned'}</span></td>
+                            <td style="padding: 10px; color: #CBD5E1;">${p.cta}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        </div>
+    `;
+    document.getElementById('pagesContent').innerHTML = html;
+}
+
+// ============ RENDER PIPELINE ============
+function renderPipeline() {
+    const GITHUB_REPO = 'nitro0dust-pixel/thekpihub-pipeline';
+    const WORKFLOW_URL = `https://github.com/${GITHUB_REPO}/actions`;
+
+    const container = document.getElementById('pipelineContent');
+
+    container.innerHTML = `
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:24px;">
+            <div class="stat-card accent-teal">
+                <div class="stat-icon">🤖</div>
+                <div class="stat-body"><div class="stat-value" id="pipeSuccessRate">—</div><div class="stat-label">Success Rate</div></div>
+            </div>
+            <div class="stat-card accent-green">
+                <div class="stat-icon">📰</div>
+                <div class="stat-body"><div class="stat-value" id="pipeArticlesWeek">—</div><div class="stat-label">Articles This Week</div></div>
+            </div>
+            <div class="stat-card accent-amber">
+                <div class="stat-icon">🔁</div>
+                <div class="stat-body"><div class="stat-value" id="pipeTotalRuns">—</div><div class="stat-label">Total Runs</div></div>
+            </div>
+            <div class="stat-card accent-red">
+                <div class="stat-icon">⏰</div>
+                <div class="stat-body"><div class="stat-value" id="pipeLastRun" style="font-size:clamp(15px,2vw,20px);">—</div><div class="stat-label">Last Run</div></div>
+            </div>
+        </div>
+
+        <div style="background:var(--bgMid);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+                <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:0.95rem;letter-spacing:-0.005em;">Recent Pipeline Runs</div>
+                <a href="${WORKFLOW_URL}" target="_blank" rel="noopener"
+                   style="font-family:'Syne',sans-serif;font-size:0.72rem;font-weight:700;color:var(--teal);text-decoration:none;border:1px solid rgba(13,148,136,0.4);padding:6px 14px;border-radius:6px;line-height:1;">
+                   Open GitHub Actions ↗
+                </a>
+            </div>
+            <div id="pipeRunsList"><div class="loading"><div class="spinner"></div><p style="margin-top:10px;font-size:0.825rem;">Fetching pipeline data…</p></div></div>
+        </div>
+
+        <div style="background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.2);border-radius:9px;padding:14px 18px;font-size:0.8rem;line-height:1.5;color:var(--amber);">
+            🔔 <strong>Schedule:</strong> 4×/day (01:00 · 07:00 · 13:00 · 19:00 UTC) — 5 AI engines → 3 articles/run → saved to artifacts
+            &nbsp;·&nbsp; <a href="${WORKFLOW_URL}" target="_blank" rel="noopener" style="color:var(--amber);font-weight:600;">Monitor live ↗</a>
+        </div>
+    `;
+
+    // Fetch public pipeline data from GitHub API (no auth needed for public repos)
+    const apiUrl = `https://api.github.com/repos/${GITHUB_REPO}/actions/workflows/pipeline.yml/runs?per_page=10`;
+
+    fetch(apiUrl, { headers: { 'Accept': 'application/vnd.github.v3+json', 'User-Agent': 'thekpihub-dashboard' } })
+        .then(r => r.json())
+        .then(data => {
+            const runs = (data.workflow_runs || []).slice(0, 7);
+            const success = runs.filter(r => r.conclusion === 'success').length;
+            const rate = runs.length ? Math.round(success / runs.length * 100) : 0;
+            const articlesWeek = success * 7;
+
+            document.getElementById('pipeSuccessRate').textContent = rate + '%';
+            document.getElementById('pipeArticlesWeek').textContent = articlesWeek;
+            document.getElementById('pipeTotalRuns').textContent = data.total_count || runs.length;
+
+            const last = runs[0];
+            if (last) {
+                const d = new Date(last.created_at);
+                document.getElementById('pipeLastRun').textContent =
+                    d.toLocaleDateString('en-IN', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit', timeZone:'Asia/Kolkata' });
+            }
+
+            const icons = { success:'✅', failure:'❌', cancelled:'⏹', in_progress:'⏳', queued:'🕐' };
+            const colours = { success:'#10B981', failure:'#EF4444', cancelled:'#94A3B8', in_progress:'#F59E0B', queued:'#94A3B8' };
+
+            if (runs.length === 0) {
+                document.getElementById('pipeRunsList').innerHTML =
+                    '<p style="font-size:0.825rem;color:var(--gray);text-align:center;padding:24px;">No runs found yet — trigger a manual run from GitHub Actions.</p>';
+                return;
+            }
+
+            document.getElementById('pipeRunsList').innerHTML = runs.map(r => {
+                const status = r.conclusion || r.status;
+                const dur = r.run_started_at
+                    ? Math.round((new Date(r.updated_at) - new Date(r.run_started_at)) / 60000)
+                    : 0;
+                return `
+                    <div style="display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--border);">
+                        <span style="font-size:18px;width:22px;text-align:center;flex-shrink:0;">${icons[status] || '❓'}</span>
+                        <div style="flex:1;min-width:0;">
+                            <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.825rem;line-height:1.3;">Run #${r.run_number}</div>
+                            <div style="font-size:0.72rem;color:var(--gray);margin-top:2px;">${new Date(r.created_at).toLocaleDateString('en-IN',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit',timeZone:'Asia/Kolkata'})}</div>
+                        </div>
+                        <span style="font-size:0.72rem;font-weight:700;color:${colours[status] || '#94A3B8'};min-width:72px;text-align:right;">${status.toUpperCase()}</span>
+                        <span style="font-size:0.72rem;color:var(--gray);min-width:36px;text-align:right;">${dur ? dur + 'm' : '—'}</span>
+                        <a href="${r.html_url}" target="_blank" rel="noopener"
+                           style="font-size:0.72rem;color:var(--teal);text-decoration:none;font-weight:700;">Log ↗</a>
+                    </div>
+                `;
+            }).join('');
+        })
+        .catch(() => {
+            document.getElementById('pipeRunsList').innerHTML = `
+                <div class="error-msg">
+                    ⚠ Could not reach GitHub API. The pipeline repo may be private or rate-limited.
+                    <a href="https://github.com/${GITHUB_REPO}/actions" target="_blank" rel="noopener"
+                       style="color:var(--red);font-weight:700;"> Open GitHub directly ↗</a>
+                </div>
+            `;
+            // Show zeros so UI doesn't stay blank
+            ['pipeSuccessRate','pipeArticlesWeek','pipeTotalRuns','pipeLastRun'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = 'N/A';
+            });
+        });
+}
+
+// ============ RENDER REVENUE ============
+function renderRevenue() {
+    const html = `
+        <div style="margin-bottom: 20px;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 20px;">
+                <div class="stat-card accent-green">
+                    <div class="stat-icon">💰</div>
+                    <div>
+                        <div class="stat-value">6</div>
+                        <div class="stat-label">Revenue Streams</div>
+                    </div>
+                </div>
+                <div class="stat-card accent-amber">
+                    <div class="stat-icon">🎯</div>
+                    <div>
+                        <div class="stat-value">₹7L+</div>
+                        <div class="stat-label">Peak Potential</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stream-grid">
+                ${STREAMS.map(s => `
+                    <div class="stream-card">
+                        <div class="stream-header">
+                            <div class="stream-icon" style="background: ${s.pot.includes('₹50K') ? 'rgba(249, 115, 22, 0.15)' : 'rgba(13, 148, 136, 0.15)'}; border-color: ${s.pot.includes('₹50K') ? 'rgba(249, 115, 22, 0.25)' : 'rgba(13, 148, 136, 0.25)'};">${s.icon}</div>
+                            <div class="stream-info">
+                                <div class="stream-name">${s.name}</div>
+                                <div class="stream-badges">
+                                    <span class="badge phase">Phase ${s.phase}</span>
+                                    <span class="badge phase">${s.status}</span>
+                                </div>
+                            </div>
+                            <div class="stream-potential">${s.pot}</div>
+                        </div>
+                        <div class="stream-detail">${['Freemium', 'Affiliate', 'Sponsored', 'API', 'Gated', 'Enterprise'][s.id - 1]} revenue model.</div>
+                        <div style="margin-bottom: 8px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 9px;">
+                                <span style="color: var(--gray); font-weight: 700; text-transform: uppercase;">Readiness</span>
+                                <span style="font-weight: 700; color: #14B8A6;">${s.prog}%</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-fill" style="width: ${s.prog}%; background: #14B8A6;"></div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    `;
+    document.getElementById('revenueContent').innerHTML = html;
+}
+
+// ============ TAB SWITCHING ============
+document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+        btn.classList.add('active');
+        const tabId = btn.dataset.tab;
+        document.getElementById(tabId).classList.add('active');
+        currentTab = tabId;
+    });
+});
+
+// ============ INIT ============
+function init() {
+    if (!checkAuth()) return;
+
+    loadTasks();
+    updateStats();
+    renderCommandCenter();
+    renderPipeline();
+    renderAchieved();
+    renderTodoList();
+    renderTimeline();
+    renderPages();
+    renderRevenue();
+
+    console.log('✅ Dashboard initialized');
+}
+
+// Start
+document.addEventListener('DOMContentLoaded', init);
+</script>
+
+</body>
+</html>

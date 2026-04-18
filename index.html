@@ -37,6 +37,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Syne:wght@400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
 
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
     <style>
         /* =============================================
            VARIABLES
@@ -60,6 +63,7 @@
             --display:   'Cormorant Garamond', serif;
             --head:      'Syne', sans-serif;
             --body:      'DM Sans', sans-serif;
+
         }
 
         /* =============================================
@@ -212,8 +216,8 @@
         .nav-overlay.open .overlay-item:nth-child(5) .overlay-item-inner { transform:translateY(0); transition-delay:0.34s; }
         .nav-overlay.open .overlay-item:nth-child(6) .overlay-item-inner { transform:translateY(0); transition-delay:0.41s; }
         .overlay-num {
-            font-family: var(--head); font-size: 0.68rem; font-weight: 700;
-            letter-spacing: 0.14em; color: var(--gold);
+            font-family: var(--head); font-size: 0.75rem; font-weight: 700;
+            letter-spacing: 0.12em; color: var(--gold);
             min-width: 30px; padding-bottom: 2px;
         }
         .overlay-link {
@@ -225,8 +229,8 @@
         }
         .overlay-link:hover { color: var(--gold); letter-spacing: 0.01em; }
         .overlay-badge {
-            font-family: var(--head); font-size: 0.62rem; font-weight: 700;
-            letter-spacing: 0.1em; text-transform: uppercase;
+            font-family: var(--head); font-size: 0.68rem; font-weight: 700;
+            letter-spacing: 0.08em; text-transform: uppercase;
             padding: 4px 12px; border-radius: 100px;
             margin-left: auto; align-self: center;
         }
@@ -304,9 +308,9 @@
 
         .hero-h1 {
             font-family: var(--display);
-            font-size: clamp(3.2rem, 7.5vw, 6.2rem);
-            font-weight:700; line-height:1.04;
-            letter-spacing:-0.025em;
+            font-size: clamp(52px, 7vw, 88px);
+            font-weight:800; line-height:1.05;
+            letter-spacing:-0.03em;
             margin-bottom:26px;
             animation: fadeUp 0.8s 0.45s ease both;
         }
@@ -322,6 +326,10 @@
         .hero-actions {
             display:flex; gap:16px; justify-content:center; flex-wrap:wrap;
             animation: fadeUp 0.8s 0.85s ease both;
+        }
+        .cta-group {
+            display:flex; align-items:center; gap:16px;
+            flex-wrap:wrap; justify-content:center;
         }
         .btn-primary {
             display:inline-flex; align-items:center; gap:10px;
@@ -350,6 +358,28 @@
             border-color:var(--gold-rim); color:var(--text);
             transform:translateY(-2px);
         }
+        .cta-secondary {
+            display:inline-flex; align-items:center;
+            font-family:var(--body); font-size:15px;
+            font-weight:500; color:rgba(255,255,255,0.7);
+            text-decoration:none; padding:12px 24px;
+            border:1px solid rgba(255,255,255,0.15);
+            border-radius:8px;
+            transition:color 0.2s, border-color 0.2s;
+            white-space:nowrap;
+        }
+        .cta-secondary:hover {
+            color:#E9A123;
+            border-color:rgba(233,161,35,0.4);
+        }
+        @media(max-width:480px) {
+            .cta-group {
+                flex-direction:column; align-items:stretch;
+            }
+            .cta-secondary {
+                text-align:center; justify-content:center;
+            }
+        }
 
         /* Floating KPI Cards */
         .float-cards { position:absolute; inset:0; pointer-events:none; z-index:1; }
@@ -363,8 +393,8 @@
             opacity:0; animation-fill-mode:both;
         }
         .fcard-lbl {
-            font-family:var(--head); font-size:0.62rem; font-weight:700;
-            letter-spacing:0.1em; text-transform:uppercase; color:var(--text3);
+            font-family:var(--head); font-size:0.68rem; font-weight:700;
+            letter-spacing:0.09em; text-transform:uppercase; color:var(--text3);
             margin-bottom:5px;
         }
         .fcard-val {
@@ -385,8 +415,8 @@
         .scroll-hint {
             position:absolute; bottom:32px; left:50%; transform:translateX(-50%);
             display:flex; flex-direction:column; align-items:center; gap:8px;
-            font-family:var(--head); font-size:0.65rem; font-weight:600;
-            letter-spacing:0.12em; text-transform:uppercase; color:var(--text3);
+            font-family:var(--head); font-size:0.72rem; font-weight:600;
+            letter-spacing:0.1em; text-transform:uppercase; color:var(--text3);
             animation: fadeUp 0.8s 2.2s ease both;
         }
         .scroll-line {
@@ -414,7 +444,7 @@
             font-family:var(--head); font-size:0.74rem; font-weight:600;
             letter-spacing:0.07em; text-transform:uppercase; color:var(--text3);
         }
-        .t-item .sep { color:var(--gold); font-size:0.45rem; }
+        .t-item .sep { color:var(--gold); font-size:0.6rem; }
 
         /* =============================================
            SECTION COMMONS
@@ -716,6 +746,7 @@
             .overlay-meta { padding: 20px 32px; }
             section { padding:80px 24px; }
             .hero { padding:110px 24px 70px; }
+            .hero-h1 { font-size:clamp(42px,6vw,64px); }
             .v-grid { grid-template-columns:1fr; }
             .steps { grid-template-columns:1fr; }
             .steps::before { display:none; }
@@ -728,6 +759,7 @@
         @media(max-width:560px){
             body { cursor:auto; }
             .cursor, .cursor-ring { display:none; }
+            .hero-h1 { font-size:clamp(36px,9vw,48px); line-height:1.1; }
             .feat-grid { grid-template-columns:1fr; }
             .stats-grid { grid-template-columns:1fr; }
             .email-form { flex-direction:column; }
@@ -735,6 +767,40 @@
             .hiw-header { flex-direction:column; }
             .feat-header { flex-direction:column; }
         }
+
+        /* =============================================
+           FOUNDER SECTION
+        ============================================= */
+        .founder-section{padding:64px 24px;
+          border-top:1px solid rgba(233,161,35,0.15);
+          border-bottom:1px solid rgba(233,161,35,0.15);}
+        .founder-container{max-width:720px;margin:0 auto;
+          display:flex;align-items:center;gap:32px;}
+        .founder-image-wrap img{width:88px;height:88px;
+          border-radius:50%;object-fit:cover;
+          border:2px solid rgba(233,161,35,0.4);
+          background:rgba(233,161,35,0.08);}
+        .founder-label{font-family:'DM Sans',sans-serif;
+          font-size:10px;letter-spacing:0.15em;color:#E9A123;
+          opacity:0.7;text-transform:uppercase;margin:0 0 4px 0;}
+        .founder-name{font-family:'Syne',sans-serif;font-size:22px;
+          font-weight:700;color:#fff;margin:0 0 2px 0;}
+        .founder-title{font-family:'DM Sans',sans-serif;font-size:13px;
+          color:rgba(255,255,255,0.45);margin:0 0 12px 0;}
+        .founder-bio{font-family:'DM Sans',sans-serif;font-size:14px;
+          line-height:1.65;color:rgba(255,255,255,0.7);
+          margin:0 0 16px 0;}
+        .founder-link{display:inline-flex;align-items:center;gap:8px;
+          font-family:'DM Sans',sans-serif;font-size:13px;
+          color:#E9A123;text-decoration:none;
+          border:1px solid rgba(233,161,35,0.3);
+          padding:7px 16px;border-radius:6px;
+          transition:border-color 0.2s,background 0.2s;}
+        .founder-link:hover{border-color:#E9A123;
+          background:rgba(233,161,35,0.06);}
+        @media(max-width:560px){
+          .founder-container{flex-direction:column;
+            text-align:center;align-items:center;gap:20px;}}
 
         /* =============================================
            COOKIE CONSENT BANNER
@@ -807,6 +873,25 @@
             .cookie-actions { width: 100%; }
             .cookie-btn { flex: 1; text-align: center; }
         }
+
+        /* =============================================
+           CREDIBILITY BAR
+        ============================================= */
+        .credibility-bar{width:100%;padding:10px 24px;
+          background:transparent;
+          border-bottom:1px solid rgba(233,161,35,0.2);
+          text-align:center;}
+        .credibility-inner{display:flex;align-items:center;
+          justify-content:center;gap:12px;
+          max-width:900px;margin:0 auto;}
+        .credibility-bar p{font-family:'DM Sans',sans-serif;
+          font-size:12px;letter-spacing:0.08em;
+          color:#E9A123;text-transform:uppercase;
+          margin:0;opacity:0.9;}
+        .credibility-dot{width:4px;height:4px;border-radius:50%;
+          background:#E9A123;opacity:0.5;flex-shrink:0;}
+        @media(max-width:480px){
+          .credibility-bar p{font-size:10px;letter-spacing:0.04em;}}
     </style>
 <script type="application/ld+json">
 {
@@ -863,10 +948,23 @@
         <li><a href="#intelligence">Intelligence</a></li>
         <li><a href="#how-it-works">How It Works</a></li>
         <li><a href="#features">Features</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
         <li><a href="#waitlist">Early Access</a></li>
     </ul>
     <a href="#waitlist"><button class="nav-btn">Get Early Access</button></a>
 </nav>
+
+<div class="credibility-bar" role="banner"
+     aria-label="Builder Recognition">
+  <div class="credibility-inner">
+    <span class="credibility-dot"></span>
+    <p>Selected &mdash; India&rsquo;s Top 300 Builders
+       &nbsp;&middot;&nbsp; VibeCon 2025 &nbsp;&middot;&nbsp;
+       YC &times; Anthropic &times; Lightspeed &times; Razorpay
+    </p>
+    <span class="credibility-dot"></span>
+  </div>
+</div>
 
 <!-- Full-Screen Overlay Navigation (Kuemmerlein-inspired) -->
 <div class="nav-overlay" id="navOverlay" role="dialog" aria-label="Navigation menu" aria-hidden="true">
@@ -963,9 +1061,16 @@
             so you evaluate faster, decide smarter, and scale with confidence.
         </p>
         <div class="hero-actions">
-            <a href="#waitlist">
-                <button class="btn-primary">🚀 Get Early Access</button>
-            </a>
+            <div class="cta-group">
+                <a href="#waitlist">
+                    <button class="btn-primary">Get Early Access</button>
+                </a>
+                <a href="benchmarks.html"
+                   class="cta-secondary"
+                   aria-label="View free SaaS KPI benchmarks">
+                  View Free Benchmarks &rarr;
+                </a>
+            </div>
             <a href="#how-it-works">
                 <button class="btn-ghost">See How It Works →</button>
             </a>
@@ -1018,17 +1123,17 @@
         </div>
         <div class="v-grid">
             <div class="v-item reveal">
-                <div class="v-icon">🧠</div>
+                <div class="v-icon"><i data-lucide="brain" aria-label="AI-Synthesized Insights" style="width:28px;height:28px;stroke:#E9A123;stroke-width:1.5;display:block;margin:0 auto 16px auto;fill:none;"></i></div>
                 <h3 class="v-title">AI-Synthesized Insights</h3>
                 <p class="v-text">Our Claude-powered engine scans thousands of SaaS data sources daily, distilling the signal from the noise into clear, actionable intelligence. No manual curation needed.</p>
             </div>
             <div class="v-item reveal" style="transition-delay:0.15s">
-                <div class="v-icon">🎯</div>
+                <div class="v-icon"><i data-lucide="target" aria-label="Precision SaaS Matching" style="width:28px;height:28px;stroke:#E9A123;stroke-width:1.5;display:block;margin:0 auto 16px auto;fill:none;"></i></div>
                 <h3 class="v-title">Precision SaaS Matching</h3>
                 <p class="v-text">Stop guessing which tools fit your stack. Our matching engine evaluates 200+ criteria to surface exactly the SaaS solutions built for your specific business context.</p>
             </div>
             <div class="v-item reveal" style="transition-delay:0.3s">
-                <div class="v-icon">⚡</div>
+                <div class="v-icon"><i data-lucide="zap" aria-label="Real-Time Benchmarks" style="width:28px;height:28px;stroke:#E9A123;stroke-width:1.5;display:block;margin:0 auto 16px auto;fill:none;"></i></div>
                 <h3 class="v-title">Real-Time Benchmarks</h3>
                 <p class="v-text">Know exactly where you stand. Track industry KPIs, compare against peer cohorts, and get alerted when benchmark shifts create competitive opportunities.</p>
             </div>
@@ -1078,32 +1183,32 @@
         </div>
         <div class="feat-grid">
             <div class="feat-card reveal">
-                <div class="feat-icon">📊</div>
+                <div class="feat-icon"><i data-lucide="bar-chart-2" aria-label="KPI Intelligence Feed" style="width:28px;height:28px;stroke:#E9A123;stroke-width:1.5;display:block;margin:0 auto 16px auto;fill:none;"></i></div>
                 <h3 class="feat-title">KPI Intelligence Feed</h3>
                 <p class="feat-text">Daily AI-curated briefings on the metrics that matter most in your SaaS vertical. Always fresh, always verified, always relevant to your context.</p>
             </div>
             <div class="feat-card reveal" style="transition-delay:0.1s">
-                <div class="feat-icon">🔍</div>
+                <div class="feat-icon"><i data-lucide="search" aria-label="SaaS Discovery Engine" style="width:28px;height:28px;stroke:#E9A123;stroke-width:1.5;display:block;margin:0 auto 16px auto;fill:none;"></i></div>
                 <h3 class="feat-title">SaaS Discovery Engine</h3>
                 <p class="feat-text">Search and evaluate SaaS tools with AI-powered context. See real usage patterns, integration strengths, and competitive gaps at a glance.</p>
             </div>
             <div class="feat-card reveal" style="transition-delay:0.2s">
-                <div class="feat-icon">📈</div>
+                <div class="feat-icon"><i data-lucide="trending-up" aria-label="Benchmark Tracker" style="width:28px;height:28px;stroke:#E9A123;stroke-width:1.5;display:block;margin:0 auto 16px auto;fill:none;"></i></div>
                 <h3 class="feat-title">Benchmark Tracker</h3>
                 <p class="feat-text">Compare your metrics against industry standards and peer cohorts. Know where you're leading and where you're leaving money on the table.</p>
             </div>
             <div class="feat-card reveal" style="transition-delay:0.1s">
-                <div class="feat-icon">🤖</div>
+                <div class="feat-icon"><i data-lucide="bot" aria-label="AI Research Assistant" style="width:28px;height:28px;stroke:#E9A123;stroke-width:1.5;display:block;margin:0 auto 16px auto;fill:none;"></i></div>
                 <h3 class="feat-title">AI Research Assistant</h3>
                 <p class="feat-text">Ask any question about SaaS tools, vendors, or KPIs and get a verified, sourced answer in seconds — not hours of Googling across 40 tabs.</p>
             </div>
             <div class="feat-card reveal" style="transition-delay:0.2s">
-                <div class="feat-icon">🔔</div>
+                <div class="feat-icon"><i data-lucide="bell" aria-label="Smart Alert System" style="width:28px;height:28px;stroke:#E9A123;stroke-width:1.5;display:block;margin:0 auto 16px auto;fill:none;"></i></div>
                 <h3 class="feat-title">Smart Alert System</h3>
                 <p class="feat-text">Set intelligent alerts on market moves, pricing changes, competitor activity, or KPI shifts that actually affect your business decisions.</p>
             </div>
             <div class="feat-card reveal" style="transition-delay:0.3s">
-                <div class="feat-icon">💡</div>
+                <div class="feat-icon"><i data-lucide="lightbulb" aria-label="Decision Reports" style="width:28px;height:28px;stroke:#E9A123;stroke-width:1.5;display:block;margin:0 auto 16px auto;fill:none;"></i></div>
                 <h3 class="feat-title">Decision Reports</h3>
                 <p class="feat-text">Auto-generated evaluation reports for any SaaS tool you're considering. All the research done. All the questions answered. Zero fluff.</p>
             </div>
@@ -1116,23 +1221,53 @@
     <div class="wrap">
         <div class="stats-grid reveal">
             <div class="stat-item">
-                <div class="stat-val">10K+</div>
-                <div class="stat-lbl">SaaS Tools Tracked</div>
+                <div class="stat-val">40+</div>
+                <div class="stat-lbl">Data Sources Wired</div>
             </div>
             <div class="stat-item">
-                <div class="stat-val">500+</div>
-                <div class="stat-lbl">Data Sources Monitored</div>
+                <div class="stat-val">6</div>
+                <div class="stat-lbl">KPI Categories Tracked</div>
             </div>
             <div class="stat-item">
                 <div class="stat-val">24/7</div>
                 <div class="stat-lbl">Automated Intelligence</div>
             </div>
             <div class="stat-item">
-                <div class="stat-val">95%</div>
-                <div class="stat-lbl">Pipeline Automation</div>
+                <div class="stat-val">Top 300</div>
+                <div class="stat-lbl">India Builder · VibeCon 2025</div>
             </div>
         </div>
     </div>
+</section>
+
+<!-- ======================== FOUNDER ======================== -->
+<section class="founder-section" aria-label="About the Founder">
+  <div class="founder-container">
+    <div class="founder-image-wrap">
+      <img id="founder-photo"
+           src="assets/founder.jpg"
+           alt="Himanshu Sharma, Founder of The KPI Hub"
+           width="88" height="88"
+           onerror="this.src='https://ui-avatars.com/api/?name=Himanshu+Sharma&background=06071A&color=E9A123&size=88'">
+    </div>
+    <div class="founder-content">
+      <p class="founder-label">BUILT BY</p>
+      <h3 class="founder-name">Himanshu Sharma</h3>
+      <p class="founder-title">Founder &amp; Lead Builder</p>
+      <p class="founder-bio">Night-shift cloud engineer turned SaaS founder. Building decision-grade intelligence for operators who can&rsquo;t afford to be wrong. Selected &mdash; India&rsquo;s Top 300 Builders, VibeCon 2025.</p>
+      <a href="https://linkedin.com/in/hsharmagxi"
+         target="_blank" rel="noopener noreferrer"
+         class="founder-link"
+         aria-label="Connect with Himanshu on LinkedIn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9A123" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+          <rect x="2" y="9" width="4" height="12"/>
+          <circle cx="4" cy="4" r="2"/>
+        </svg>
+        Connect on LinkedIn
+      </a>
+    </div>
+  </div>
 </section>
 
 <!-- ======================== CTA ======================== -->
@@ -1342,7 +1477,188 @@
             ? '0 8px 40px rgba(0,0,0,0.4)'
             : 'none';
     });
+
+    /* --- Initialize Lucide Icons --- */
+    lucide.createIcons();
+</script>
+
+<!-- ======================== CHATBOT WIDGET ======================== -->
+<style>
+    .chat-fab{position:fixed;bottom:28px;right:28px;z-index:9000;width:56px;height:56px;border-radius:50%;background:var(--gold);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(233,161,35,0.45);transition:transform 0.2s,box-shadow 0.2s;animation:fabPulse 3s ease-in-out infinite;}
+    .chat-fab:hover{transform:scale(1.08);box-shadow:0 12px 40px rgba(233,161,35,0.6);}
+    .chat-fab svg{transition:transform 0.3s;}
+    .chat-fab.open svg.icon-chat{display:none;}
+    .chat-fab.open svg.icon-close{display:block!important;}
+    @keyframes fabPulse{0%,100%{box-shadow:0 8px 32px rgba(233,161,35,0.45)}50%{box-shadow:0 8px 40px rgba(233,161,35,0.7)}}
+
+    .chat-window{position:fixed;bottom:96px;right:28px;z-index:8999;width:360px;max-width:calc(100vw - 32px);background:#0C0E28;border:1px solid rgba(233,161,35,0.25);border-radius:18px;box-shadow:0 24px 80px rgba(0,0,0,0.6);display:flex;flex-direction:column;overflow:hidden;transform:translateY(20px) scale(0.95);opacity:0;pointer-events:none;transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1),opacity 0.25s ease;}
+    .chat-window.open{transform:translateY(0) scale(1);opacity:1;pointer-events:all;}
+
+    .chat-head{padding:16px 18px;background:linear-gradient(135deg,rgba(233,161,35,0.12),rgba(0,201,167,0.08));border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;gap:12px;}
+    .chat-avatar{width:38px;height:38px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:#06071A;flex-shrink:0;}
+    .chat-head-info{flex:1;}
+    .chat-head-name{font-family:'Syne',sans-serif;font-weight:800;font-size:0.9rem;color:#EAEDF5;}
+    .chat-head-status{font-size:0.72rem;color:#00C9A7;display:flex;align-items:center;gap:5px;}
+    .status-dot{width:6px;height:6px;border-radius:50%;background:#00C9A7;animation:blink 2s ease infinite;}
+
+    .chat-msgs{height:320px;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.1) transparent;}
+    .chat-msgs::-webkit-scrollbar{width:4px;}
+    .chat-msgs::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px;}
+
+    .msg{max-width:82%;padding:10px 14px;border-radius:14px;font-size:0.85rem;line-height:1.6;animation:msgIn 0.25s ease;}
+    .msg.bot{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);color:#EAEDF5;align-self:flex-start;border-bottom-left-radius:4px;}
+    .msg.user{background:var(--gold);color:#06071A;align-self:flex-end;font-weight:500;border-bottom-right-radius:4px;}
+    .msg.typing{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);align-self:flex-start;padding:12px 16px;}
+    .typing-dots{display:flex;gap:4px;align-items:center;}
+    .typing-dots span{width:6px;height:6px;border-radius:50%;background:rgba(234,237,245,0.4);animation:typingBounce 1.2s ease infinite;}
+    .typing-dots span:nth-child(2){animation-delay:0.2s;}
+    .typing-dots span:nth-child(3){animation-delay:0.4s;}
+    @keyframes typingBounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+    @keyframes msgIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+    .chat-quick{padding:0 12px 10px;display:flex;gap:6px;flex-wrap:wrap;}
+    .qchip{padding:5px 12px;border-radius:100px;border:1px solid rgba(233,161,35,0.3);background:rgba(233,161,35,0.06);color:rgba(234,237,245,0.7);font-family:'Syne',sans-serif;font-size:0.7rem;font-weight:600;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
+    .qchip:hover{background:rgba(233,161,35,0.15);border-color:rgba(233,161,35,0.5);color:#EAEDF5;}
+
+    .chat-input-row{padding:12px;border-top:1px solid rgba(255,255,255,0.06);display:flex;gap:8px;align-items:center;}
+    .chat-input{flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:10px 14px;color:#EAEDF5;font-family:'DM Sans',sans-serif;font-size:0.85rem;outline:none;transition:border-color 0.2s;}
+    .chat-input::placeholder{color:rgba(234,237,245,0.3);}
+    .chat-input:focus{border-color:rgba(233,161,35,0.5);}
+    .chat-send{width:38px;height:38px;border-radius:10px;background:var(--gold);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform 0.15s,opacity 0.15s;}
+    .chat-send:hover{transform:scale(1.08);}
+    .chat-send:disabled{opacity:0.4;cursor:default;}
+
+    @media(max-width:480px){
+        .chat-fab{bottom:18px;right:18px;}
+        .chat-window{bottom:84px;right:12px;left:12px;width:auto;}
+    }
+</style>
+
+<!-- Chat FAB button -->
+<button class="chat-fab" id="chatFab" aria-label="Open KPI Hub chat assistant" onclick="toggleChat()">
+    <svg class="icon-chat" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#06071A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    <svg class="icon-close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#06071A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:none"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+</button>
+
+<!-- Chat window -->
+<div class="chat-window" id="chatWindow" role="dialog" aria-label="KPI Hub chat assistant">
+    <div class="chat-head">
+        <div class="chat-avatar">K</div>
+        <div class="chat-head-info">
+            <div class="chat-head-name">KPI Hub Assistant</div>
+            <div class="chat-head-status"><span class="status-dot"></span>Online · AI-powered</div>
+        </div>
+    </div>
+    <div class="chat-msgs" id="chatMsgs"></div>
+    <div class="chat-quick" id="chatQuick">
+        <button class="qchip" onclick="sendQuick('What is The KPI Hub?')">What is KPI Hub?</button>
+        <button class="qchip" onclick="sendQuick('How does the pipeline work?')">Pipeline</button>
+        <button class="qchip" onclick="sendQuick('What are the pricing plans?')">Pricing</button>
+        <button class="qchip" onclick="sendQuick('How do I join the waitlist?')">Join Waitlist</button>
+    </div>
+    <div class="chat-input-row">
+        <input class="chat-input" id="chatInput" type="text" placeholder="Ask anything about KPIs…" autocomplete="off" onkeydown="if(event.key==='Enter')sendMsg()">
+        <button class="chat-send" id="chatSendBtn" onclick="sendMsg()" aria-label="Send">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#06071A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+    </div>
+</div>
+
+<script>
+(function(){
+    const KB = {
+        greet: "Hi! 👋 I'm the KPI Hub assistant. I can help you with KPIs, SaaS benchmarks, how our platform works, or anything about getting early access. What would you like to know?",
+        fallback: "That's a great question! For detailed answers, I'd recommend joining our early access list — our full AI assistant launches with the Pro tier. Want me to point you to the right section of the site?",
+        responses: [
+            {keys:['what is','about kpi hub','tell me about','who are you'],ans:"The KPI Hub is a decision-grade SaaS intelligence platform. We synthesise real-time signals — funding rounds, product launches, benchmark shifts — into actionable insights for SaaS operators, founders and investors. No noise. Just signal. 🎯"},
+            {keys:['pipeline','automation','how does it work','intelligence','ai engine'],ans:"Our 5-engine AI pipeline runs daily at 03:03 AM IST. It scans thousands of SaaS data sources, synthesises 7 curated articles per run, and publishes them automatically. Powered by Claude (Anthropic) + SerpAPI. You can monitor live runs from the admin dashboard. 🤖"},
+            {keys:['pricing','price','cost','plan','free','pro','enterprise','subscription'],ans:"We have 3 tiers:\n• **Free** — Intelligence feed, KPI directory, benchmarks\n• **Pro** (₹999–₹2,999/mo) — Advanced filters, gated reports, API access\n• **Enterprise** (₹50K+/mo) — White-label, custom data, team seats\n\nFull details on our Pricing page. Early access members get locked-in rates! 💰"},
+            {keys:['waitlist','early access','sign up','join','register'],ans:"You can join the early access waitlist right on this page — scroll down to the hero section and enter your email. Early members get:\n✅ Locked-in pricing\n✅ Beta features first\n✅ Direct line to the founder\n\nWe're onboarding in batches — join now before it fills up! 🚀"},
+            {keys:['kpi','metric','benchmark','measure','track'],ans:"Great question! We cover 6 KPI categories for SaaS:\n• Revenue (ARR, MRR, NRR, Churn)\n• Growth (CAC, LTV, Payback Period)\n• Product (DAU/MAU, Retention, NPS)\n• Sales (Win Rate, ACV, Pipeline Velocity)\n• Marketing (CAC by Channel, ROAS)\n• Operations (Burn Rate, Runway, Headcount Efficiency)\n\nBrowse all 500+ KPIs in our Directory →"},
+            {keys:['directory','saas tools','tools','software','compare'],ans:"Our SaaS Directory has 200+ verified tools across 18 categories — CRM, Analytics, Finance, HR, DevOps and more. Each listing has ratings, pricing tier, key features and tags. Check it out at thekpihub.com/directory.html 🗂️"},
+            {keys:['intelligence','feed','signal','news','update'],ans:"The Intelligence Feed surfaces 7 curated SaaS signals daily — funding rounds, M&A moves, product launches, regulatory updates and market benchmarks. It's the fastest way to stay ahead of your competitive landscape. Visit /intelligence.html 📰"},
+            {keys:['founder','himanshu','team','who built','company'],ans:"The KPI Hub was built by Himanshu Sharma — a SaaS operator and India Top 300 Builder (VibeCon 2025, YC × Anthropic × Lightspeed × Razorpay). He built this to solve the exact problem he faced as an operator: too much noise, not enough actionable signal. 👨‍💻"},
+            {keys:['contact','email','reach','support','help'],ans:"You can reach us at:\n📧 info@thekpihub.com\n📧 admin@thekpihub.com\n\nOr fill out the contact form at /contact.html. We typically reply within 24 hours. 💬"},
+            {keys:['api','developer','integrate','webhook'],ans:"Our public API is planned for Phase 3 (Month 8). It'll cover:\n• KPI benchmarks endpoint\n• Intelligence feed webhook\n• Company data lookup\n\nJoin the waitlist and we'll notify you when developer access opens. 🔌"},
+        ]
+    };
+
+    let chatOpen = false;
+    let initialized = false;
+
+    window.toggleChat = function(){
+        chatOpen = !chatOpen;
+        document.getElementById('chatFab').classList.toggle('open', chatOpen);
+        document.getElementById('chatWindow').classList.toggle('open', chatOpen);
+        if(chatOpen && !initialized){
+            initialized = true;
+            setTimeout(()=>addMsg('bot', KB.greet), 300);
+        }
+        if(chatOpen) setTimeout(()=>document.getElementById('chatInput').focus(), 350);
+    };
+
+    window.sendQuick = function(text){
+        document.getElementById('chatQuick').style.display = 'none';
+        sendMessage(text);
+    };
+
+    window.sendMsg = function(){
+        const input = document.getElementById('chatInput');
+        const text = input.value.trim();
+        if(!text) return;
+        input.value = '';
+        document.getElementById('chatQuick').style.display = 'none';
+        sendMessage(text);
+    };
+
+    function sendMessage(text){
+        addMsg('user', text);
+        const btn = document.getElementById('chatSendBtn');
+        btn.disabled = true;
+        const typingId = addTyping();
+        setTimeout(()=>{
+            removeTyping(typingId);
+            btn.disabled = false;
+            addMsg('bot', getResponse(text));
+        }, 800 + Math.random()*400);
+    }
+
+    function getResponse(text){
+        const lower = text.toLowerCase();
+        for(const r of KB.responses){
+            if(r.keys.some(k => lower.includes(k))) return r.ans;
+        }
+        return KB.fallback;
+    }
+
+    function addMsg(role, text){
+        const container = document.getElementById('chatMsgs');
+        const div = document.createElement('div');
+        div.className = 'msg ' + role;
+        div.innerHTML = text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
+        container.appendChild(div);
+        container.scrollTop = container.scrollHeight;
+        return div;
+    }
+
+    function addTyping(){
+        const container = document.getElementById('chatMsgs');
+        const id = 'typing_' + Date.now();
+        const div = document.createElement('div');
+        div.className = 'msg typing'; div.id = id;
+        div.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
+        container.appendChild(div);
+        container.scrollTop = container.scrollHeight;
+        return id;
+    }
+
+    function removeTyping(id){
+        const el = document.getElementById(id);
+        if(el) el.remove();
+    }
+})();
 </script>
 
 </body>
 </html>
+<!-- pipeline-verified-Sat Apr 18 03:53:03 IST 2026 -->

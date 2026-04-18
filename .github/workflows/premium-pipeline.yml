@@ -47,7 +47,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # ── Python setup ──────────────────────────────────────────────────────
+      # ── Python setup ───────────────────────────────────────────────────────
       - name: Set up Python 3.12
         uses: actions/setup-python@v5
         with:
@@ -55,20 +55,20 @@ jobs:
           cache: "pip"
           cache-dependency-path: requirements.txt
 
-      # ── Install deps ──────────────────────────────────────────────────────
+      # ── Install deps ───────────────────────────────────────────────────────
       - name: Install dependencies
         run: pip install --upgrade pip && pip install -r requirements.txt
 
-      # ── Create reports dir ────────────────────────────────────────────────
+      # ── Create reports dir ──────────────────────────────────────────────────
       - name: Prepare reports directory
         run: mkdir -p reports
 
-      # ── Run premium pipeline ──────────────────────────────────────────────
+      # ── Run premium pipeline ────────────────────────────────────────────────
       - name: Run premium intelligence pipeline
         id: pipeline
-        run: python pipeline_premium.py ${{ env.DRY_RUN == 'true' && '--dry-run' || '' }}
+        run: python pipeline.py ${{ env.DRY_RUN == 'true' && '--dry-run' || '' }}
 
-      # ── Upload artifacts ──────────────────────────────────────────────────
+      # ── Upload artifacts ────────────────────────────────────────────────────
       - name: Upload pipeline logs
         if: always()
         uses: actions/upload-artifact@v4
@@ -79,12 +79,12 @@ jobs:
             reports/
           retention-days: 14
 
-      # ── Telegram failure alert ────────────────────────────────────────────
+      # ── Telegram failure alert ──────────────────────────────────────────────
       - name: Notify Telegram on failure
         if: failure()
         run: |
           MESSAGE="❌ *KPI Hub Premium Pipeline FAILED*%0A"
-          MESSAGE+="Run: \`${{ github.run_id }}\`%0A"
+          MESSAGE+="Run: \"${{ github.run_id }}\"%0A"
           MESSAGE+="Branch: ${{ github.ref_name }}%0A"
           MESSAGE+="Triggered by: ${{ github.event_name }}%0A"
           MESSAGE+="Logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
