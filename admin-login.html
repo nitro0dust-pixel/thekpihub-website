@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="google-site-verification" content="yRGmgTNjIHFmLom_ZrczRQpmaJkf2SpAZWR75g3g71k">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Admin & Staff Portal — The KPI Hub. Secure login for administrators and employees.">
@@ -85,8 +87,9 @@
         .eye-toggle:hover{color:var(--text2);}
 
         /* EMPLOYEE-ONLY FIELDS */
-        .emp-fields{display:none;}
-        .emp-fields.show{display:block;}
+        .emp-fields{display:none !important;}
+        .emp-fields.show{display:block !important;}
+        .emp-fields.show.form-row{display:grid !important;}
         .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
 
         /* SELECT */
@@ -151,6 +154,26 @@
             .twofa-dot-in{width:38px;height:46px;}
         }
     </style>
+
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DZPCCPEP1J"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-DZPCCPEP1J');
+    </script>
+
+<link rel="canonical" href="https://thekpihub.com/admin-login.html">
+    <meta name="robots" content="index, follow">
+        <!-- Microsoft Clarity -->
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "wdshn14xgf");
+    </script>
 </head>
 <body>
 
@@ -229,7 +252,7 @@
             <!-- Email -->
             <div class="form-group">
                 <label class="form-label" for="adminEmail">Work Email</label>
-                <input class="form-in" type="email" id="adminEmail" name="email" placeholder="you@thekpihub.com" autocomplete="email" required>
+                <input class="form-in" type="email" id="adminEmail" name="email" placeholder="admin@thekpihub.com" autocomplete="email" required>
             </div>
 
             <!-- Employee ID (employees only) -->
@@ -441,18 +464,36 @@
             if (digits.length < 6) { showMsg('error', '⚠ Please enter all 6 digits of your 2FA code.'); return; }
         }
 
-        /* Simulate authentication */
+        /* Client-side authentication (static hosting) */
         const btn = document.getElementById('submitBtn');
         btn.classList.add('loading');
         btn.disabled = true;
 
-        setTimeout(() => {
-            btn.classList.remove('loading');
-            btn.disabled = false;
-            /* Demo: show success — in production redirect to dashboard */
+        const ADMIN_EMAIL = 'admin@thekpihub.com';
+        const ADMIN_HASH  = '7d31cd218582b3e58259243e322da33e84792ec2a265ac58b177bb9bea034fdc';
+
+        async function sha256(str) {
+            const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+            return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+        }
+
+        sha256(pwd.value).then(pwdHash => {
+            if (email.value !== ADMIN_EMAIL || pwdHash !== ADMIN_HASH) {
+                btn.classList.remove('loading');
+                btn.disabled = false;
+                showMsg('error', '⚠ Invalid email or password.');
+                return;
+            }
+
+            const expiry = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+            localStorage.setItem('authToken', 'session_' + Date.now());
+            localStorage.setItem('userEmail', email.value);
+            localStorage.setItem('userRole', 'admin');
+            localStorage.setItem('tokenExpiry', expiry);
+
             showMsg('success', '✓ Authentication successful. Loading your dashboard…');
-            btn.textContent = 'Redirecting…';
-        }, 1800);
+            setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
+        });
     });
 
     /* Live field validation on blur */
